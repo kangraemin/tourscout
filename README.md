@@ -17,13 +17,13 @@ An agent built on Claude works through six tools. Five of them call Qloo.
 | Check the drive | `check_route` | none. Distance and drive time come from a local GeoNames city table. |
 | Hand in the plan | `submit_plan` | none. The server orders the stops and recomputes drive times so the numbers can't be made up. |
 
-The agent compares taste rank with city size. A city that ranks higher for taste than its size would predict is a good bet for a small band, because the fans are there and the competition for attention is lower. Then it trades that off against drive time and the cities you've already played.
+The agent compares taste rank with city size. A city that ranks higher for taste than its size would predict is a good bet for a small band, because the fans are there and fewer touring bands stop there (our assumption, not something we measured). Then it trades that off against drive time and the cities you've already played.
 
 Every Qloo request is logged and shown on the page, so you can see which call produced each pick.
 
 ### Model alone
 
-Next to the plan, the same model picks cities for the same band without any Qloo access. Both lists are scored on the same Qloo heatmap. Without taste data the model falls back on big, well-known music cities. The gap between the two lists is the reason Qloo is in this project.
+Next to the plan, the same model picks cities for the same band without any Qloo access. Both lists are scored on the same Qloo heatmap. Without taste data the model falls back on big, well-known music cities. The example runs on the demo show both lists and their scores side by side.
 
 ## Run it
 

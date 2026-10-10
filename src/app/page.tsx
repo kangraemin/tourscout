@@ -142,8 +142,8 @@ export default function Home() {
           <h1 className="display text-3xl font-extrabold sm:text-4xl">TourScout</h1>
         </div>
         <p className="max-w-[46ch] text-muted">
-          Type an artist. Get the cities where people with their fans&apos; taste live, the rooms to pitch, and who should
-          open.
+          Type an artist and TourScout finds the cities where their kind of listener lives, then a room and an opener in
+          each.
         </p>
       </header>
 
