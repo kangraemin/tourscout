@@ -14,15 +14,23 @@
 import fs from "node:fs";
 import path from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
-import { CITIES, City, cityLabel, findCity, metroOf, metroPop, nearestCity } from "../src/lib/geo";
+import {
+  CITIES,
+  City,
+  cityLabel,
+  findCity,
+  metroOf,
+  metroPop,
+  nearestCity,
+} from "../src/lib/geo";
 import { Qloo } from "../src/lib/qloo";
 import { regionById } from "../src/lib/regions";
 import { MODEL } from "../src/lib/agent";
 
-const BEFORE_FROM = process.env.BT_BEFORE_FROM ?? "2024-01-01";
+const BEFORE_FROM = process.env.BT_BEFORE_FROM ?? "2025-07-01";
 const AFTER_FROM = process.env.BT_AFTER_FROM ?? "2026-07-01"; // after the model's training cutoff
 const K = 10;
-const MIN_NEW = 3; // artists with fewer new cities in the after window tell us nothing
+const MIN_NEW = Number(process.env.BT_MIN_NEW ?? 2); // artists with fewer new cities in the after window tell us nothing
 const COUNTRIES = ["US", "CA"];
 
 const SL_KEY = process.env.SETLISTFM_API_KEY;
@@ -57,8 +65,13 @@ const iso = (d: string) => d.split("-").reverse().join("-"); // dd-MM-yyyy -> yy
 
 /** Metros where the artist played, split by window. Festivals count: a band still has to route through them. */
 async function shows(artist: string) {
-  const found = await setlistGet(`/search/artists?artistName=${encodeURIComponent(artist)}&sort=relevance`);
-  const a = (found?.artist ?? []).find((x: any) => x.name.toLowerCase() === artist.toLowerCase()) ?? found?.artist?.[0];
+  const found = await setlistGet(
+    `/search/artists?artistName=${encodeURIComponent(artist)}&sort=relevance`,
+  );
+  const a =
+    (found?.artist ?? []).find(
+      (x: any) => x.name.toLowerCase() === artist.toLowerCase(),
+    ) ?? found?.artist?.[0];
   if (!a) return null;
   const before = new Set<string>();
   const after = new Set<string>();
@@ -70,7 +83,8 @@ async function shows(artist: string) {
       const c = s.venue?.city;
       if (!c || !COUNTRIES.includes(c.country?.code)) continue;
       const city =
-        (c.coords?.lat != null && nearestCity(c.coords.lat, c.coords.long, 50)) ||
+        (c.coords?.lat != null &&
+          nearestCity(c.coords.lat, c.coords.long, 50)) ||
         findCity(`${c.name}, ${c.stateCode ?? c.country.code}`);
       if (!city) continue;
       const label = cityLabel(metroOf(city));
@@ -84,7 +98,8 @@ async function shows(artist: string) {
 }
 
 const byLabel = new Map<string, City>();
-for (const c of CITIES) if (COUNTRIES.includes(c.cc)) byLabel.set(cityLabel(metroOf(c)), metroOf(c));
+for (const c of CITIES)
+  if (COUNTRIES.includes(c.cc)) byLabel.set(cityLabel(metroOf(c)), metroOf(c));
 
 function byPopulation(played: Set<string>) {
   return [...byLabel.entries()]
@@ -96,13 +111,25 @@ function byPopulation(played: Set<string>) {
 
 async function byQloo(q: Qloo, artist: string, played: Set<string>) {
   const hit = (await q.searchArtist(artist))[0];
-  if (!hit?.id) return [];
-  const rows = await q.heatmap(hit.id, regionById("na"));
-  return rows
-    .filter((r) => !played.has(r.city))
-    .sort((a, b) => (b.affinityRank ?? b.affinity) - (a.affinityRank ?? a.affinity))
-    .slice(0, K)
-    .map((r) => r.city);
+  if (!hit?.id) return { taste: [], tasteAndSize: [] };
+  const rows = (await q.heatmap(hit.id, regionById("na"))).filter(
+    (r) => !played.has(r.city),
+  );
+  const top = (score: (r: (typeof rows)[number]) => number) =>
+    [...rows]
+      .sort((a, b) => score(b) - score(a))
+      .slice(0, K)
+      .map((r) => r.city);
+  return {
+    // Pure taste: where listeners over-index, whatever the size of the city.
+    taste: top((r) => r.affinityRank ?? r.affinity),
+    // Taste weighted by market size, which is closer to how the agent trades the two off.
+    tasteAndSize: top(
+      (r) =>
+        (r.affinityRank ?? r.affinity) *
+        Math.log10(Math.max(r.population, 10_000)),
+    ),
+  };
 }
 
 const claude = new Anthropic();
@@ -130,7 +157,8 @@ async function byModel(artist: string, played: Set<string>) {
       },
     ],
   } as any);
-  const text = (res.content as any[]).find((b) => b.type === "text")?.text ?? "{}";
+  const text =
+    (res.content as any[]).find((b) => b.type === "text")?.text ?? "{}";
   const names: string[] = JSON.parse(text).cities ?? [];
   const out: string[] = [];
   for (const n of names) {
@@ -142,8 +170,13 @@ async function byModel(artist: string, played: Set<string>) {
 }
 
 async function main() {
-  const listFile = process.argv[2] ?? path.join(__dirname, "backtest-artists.txt");
-  const artists = fs.readFileSync(listFile, "utf8").split("\n").map((s) => s.trim()).filter((s) => s && !s.startsWith("#"));
+  const listFile =
+    process.argv[2] ?? path.join(__dirname, "backtest-artists.txt");
+  const artists = fs
+    .readFileSync(listFile, "utf8")
+    .split("\n")
+    .map((s) => s.trim())
+    .filter((s) => s && !s.startsWith("#"));
   const q = new Qloo();
   const rows: any[] = [];
   for (const name of artists) {
@@ -154,25 +187,46 @@ async function main() {
     }
     const truth = [...s.after].filter((l) => !s.before.has(l));
     if (truth.length < MIN_NEW || s.before.size === 0) {
-      console.log(`skip ${name}: ${s.before.size} before, ${truth.length} new after`);
+      console.log(
+        `skip ${name}: ${s.before.size} before, ${truth.length} new after`,
+      );
       continue;
     }
-    const picks = {
+    const base = {
       population: byPopulation(s.before),
-      qloo: await byQloo(q, s.name, s.before),
       model: await byModel(s.name, s.before),
     };
-    const hits = Object.fromEntries(Object.entries(picks).map(([k, v]) => [k, v.filter((l) => truth.includes(l))]));
-    rows.push({ artist: s.name, playedBefore: s.before.size, newCities: truth, picks, hits });
-    console.log(name, Object.fromEntries(Object.entries(hits).map(([k, v]) => [k, v.length])), `of ${truth.length}`);
+    const qloo = await byQloo(q, s.name, s.before);
+    const picks = { ...base, qloo: qloo.taste, qlooSized: qloo.tasteAndSize };
+    const hits = Object.fromEntries(
+      Object.entries(picks).map(([k, v]) => [
+        k,
+        v.filter((l) => truth.includes(l)),
+      ]),
+    );
+    rows.push({
+      artist: s.name,
+      playedBefore: s.before.size,
+      newCities: truth,
+      picks,
+      hits,
+    });
+    console.log(
+      name,
+      Object.fromEntries(Object.entries(hits).map(([k, v]) => [k, v.length])),
+      `of ${truth.length}`,
+    );
   }
-  const methods = ["population", "qloo", "model"] as const;
+  const methods = ["population", "qloo", "qlooSized", "model"] as const;
   const summary = Object.fromEntries(
     methods.map((m) => {
       const h = rows.reduce((a, r) => a + r.hits[m].length, 0);
       const p = rows.reduce((a, r) => a + r.picks[m].length, 0);
       const wins = rows.filter((r) => r.hits[m].length > 0).length;
-      return [m, { hits: h, picks: p, hitRate: p ? h / p : 0, artistsWithAHit: wins }];
+      return [
+        m,
+        { hits: h, picks: p, hitRate: p ? h / p : 0, artistsWithAHit: wins },
+      ];
     }),
   );
   const out = {
@@ -185,7 +239,10 @@ async function main() {
     summary,
     rows,
   };
-  fs.writeFileSync(path.join(__dirname, "../public/backtest.json"), JSON.stringify(out, null, 2));
+  fs.writeFileSync(
+    path.join(__dirname, "../public/backtest.json"),
+    JSON.stringify(out, null, 2),
+  );
   console.log(JSON.stringify(summary, null, 2));
 }
 

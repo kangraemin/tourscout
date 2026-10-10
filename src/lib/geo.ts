@@ -29,8 +29,16 @@ export function driveHours(km: number) {
   return (km * 1.25) / 85;
 }
 
+// GeoNames uses numeric admin1 codes for Canada and Australia; show the usual abbreviations instead.
+const ADMIN1: Record<string, Record<string, string>> = {
+  CA: { "01": "AB", "02": "BC", "03": "MB", "04": "NB", "05": "NL", "07": "NS", "08": "ON", "09": "PE", "10": "QC", "11": "SK" },
+  AU: { "01": "ACT", "02": "NSW", "03": "NT", "04": "QLD", "05": "SA", "06": "TAS", "07": "VIC", "08": "WA" },
+};
+
 export function cityLabel(c: City) {
-  return c.cc === "US" || c.cc === "CA" || c.cc === "AU" ? `${c.n}, ${c.a1}` : `${c.n}, ${c.cc}`;
+  if (c.cc === "US") return `${c.n}, ${c.a1}`;
+  const a1 = ADMIN1[c.cc]?.[c.a1];
+  return a1 ? `${c.n}, ${a1}` : `${c.n}, ${c.cc}`;
 }
 
 const norm = (s: string) =>
@@ -50,7 +58,9 @@ export function findCity(q: string): City | undefined {
   const hits = CITIES.filter((c) => norm(c.n) === name);
   const pool = hits.length ? hits : CITIES.filter((c) => norm(c.n).startsWith(name));
   if (!pool.length) return undefined;
-  const qualified = qual ? pool.filter((c) => norm(c.a1) === qual || norm(c.cc) === qual) : pool;
+  const qualified = qual
+    ? pool.filter((c) => norm(c.a1) === qual || norm(c.cc) === qual || norm(ADMIN1[c.cc]?.[c.a1] ?? "") === qual)
+    : pool;
   return (qualified.length ? qualified : pool).sort((a, b) => b.pop - a.pop)[0];
 }
 
