@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #eef1ec;
+  --panel: #ffffff;
+  --ink: #1c2430;
+  --muted: #5d6673;
+  --line: #cfd6cd;
+  --route: #c8322b;
+  --shield: #2b4c9b;
+  --hot: #f2c230;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-panel: var(--panel);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-route: var(--route);
+  --color-shield: var(--shield);
+  --color-hot: var(--hot);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+html, body { background: var(--paper); color: var(--ink); }
+body { font-family: var(--font-body), system-ui, sans-serif; font-size: 15px; line-height: 1.5; }
+
+.display { font-family: var(--font-display), sans-serif; font-stretch: 75%; letter-spacing: -0.01em; }
+.wide { font-family: var(--font-display), sans-serif; font-stretch: 125%; }
+
+:focus-visible { outline: 3px solid var(--shield); outline-offset: 2px; }
+
+.field { width: 100%; border: 1.5px solid var(--line); background: #fff; border-radius: 6px; padding: 8px 10px; }
+.field:focus { border-color: var(--shield); outline: none; box-shadow: 0 0 0 3px rgb(43 76 155 / 0.18); }
+
+/* Interstate-style shield used for stop numbers */
+.shield {
+  display: inline-grid; place-items: center; width: 34px; height: 36px; flex: none;
+  color: #fff; font-family: var(--font-display), sans-serif; font-weight: 800; font-size: 15px;
+  background: var(--shield);
+  clip-path: path("M17 0 C24 3 30 2 34 0 L34 16 C34 27 26 33 17 36 C8 33 0 27 0 16 L0 0 C4 2 10 3 17 0 Z");
+}
+.shield.red { background: var(--route); }
+
+.leaflet-container { font-family: var(--font-body), sans-serif; background: #dfe5dc; }
+.city-tip { font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+@keyframes blink { 50% { opacity: 0.25; } }
+.pulse { animation: blink 1.2s ease-in-out infinite; }
