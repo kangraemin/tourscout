@@ -126,6 +126,27 @@ export class Qloo {
     return (d?.results?.entities ?? []).map(toEntity);
   }
 
+  async searchPlace(query: string) {
+    const d = await this.get("/search", { query, types: "urn:entity:place", take: 3 });
+    return ((d?.results ?? []) as any[]).map(toEntity);
+  }
+
+  /**
+   * Acts whose audience is concentrated in a city (or in one venue's crowd), within a popularity band.
+   * This is the promoter's side of the same data: who to book here next.
+   */
+  async artistsForCity(city: string, opts: { venueId?: string; popMin?: number; popMax?: number; take?: number }) {
+    const d = await this.get("/v2/insights", {
+      "filter.type": "urn:entity:artist",
+      "signal.location.query": city,
+      "signal.interests.entities": opts.venueId,
+      "filter.popularity.min": opts.popMin,
+      "filter.popularity.max": opts.popMax,
+      take: opts.take ?? 20,
+    });
+    return (d?.results?.entities ?? []).map(toEntity);
+  }
+
   async findTag(query: string, tagType?: string) {
     const d = await this.get("/v2/tags", { "filter.query": query, "filter.tag.types": tagType, take: 5 });
     return (d?.results?.tags ?? []).map((t: any) => ({ id: t.id ?? t.tag_id, name: t.name, type: t.type }));

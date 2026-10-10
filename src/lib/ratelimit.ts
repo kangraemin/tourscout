@@ -8,7 +8,7 @@ export function allow(ip: string, limit = Number(process.env.RUNS_PER_HOUR ?? 6)
   const recent = (hits.get(ip) ?? []).filter((t) => now - t < 3600_000);
   if (recent.length >= limit) return false;
   // Site-wide cap across all visitors, counted on agent runs only.
-  if (!ip.startsWith("baseline:")) {
+  if (!ip.includes(":")) {
     const day = (hits.get(DAY) ?? []).filter((t) => now - t < 86_400_000);
     if (day.length >= Number(process.env.RUNS_PER_DAY ?? 150)) return false;
     day.push(now);

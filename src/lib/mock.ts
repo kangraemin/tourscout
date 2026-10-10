@@ -19,6 +19,10 @@ const SAMPLE_ARTISTS = [
 ];
 
 export function respond(path: string, p: Record<string, string>): any {
+  if (path === "/search" && p.types === "urn:entity:place") {
+    const q = p.query ?? "";
+    return { results: [{ entity_id: `sample-place-${q.toLowerCase().replace(/\W+/g, "-")}`, name: q, types: ["urn:entity:place"], popularity: 0.6 }] };
+  }
   if (path === "/search") {
     const q = p.query ?? "";
     return {
@@ -77,7 +81,7 @@ export function respond(path: string, p: Record<string, string>): any {
         entities: names.map((n, i) => ({
           entity_id: `sample-${n}`,
           name: n,
-          popularity: (0.5 + rnd() * 0.4) * Number(p["filter.popularity.max"] ?? 1),
+          popularity: Math.max(Number(p["filter.popularity.min"] ?? 0), (0.5 + rnd() * 0.4) * Number(p["filter.popularity.max"] ?? 1)),
           query: { affinity: Math.round((0.95 - i * 0.06) * 1000) / 1000 },
           tags: [{ name: "Indie Rock", type: "urn:tag:genre:music" }],
         })),
