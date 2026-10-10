@@ -197,6 +197,10 @@ export async function runScout(input: ScoutInput, emit: (e: ScoutEvent) => void)
     input.playedCities.map((c) => findCity(c)).filter(Boolean).map((c) => cityLabel(c!)),
   );
   let venueTag: string | undefined | null = null;
+  // Names the tools actually returned. A plan may only use these; anything else gets sent back.
+  const seen = new Set<string>();
+  const key = (n: string) => n.toLowerCase().replace(/[^a-z0-9]/g, "");
+  let rejections = 0;
 
   const flushQloo = () => emit({ type: "qloo", calls: [...qloo.calls] });
 
@@ -245,6 +249,7 @@ export async function runScout(input: ScoutInput, emit: (e: ScoutEvent) => void)
           qloo.localTaste(args.artist_id, args.city, "urn:entity:place", 6),
           qloo.localTaste(args.artist_id, args.city, "urn:entity:podcast", 4),
         ]);
+        for (const e of [...venues, ...openers]) if (e.name) seen.add(key(e.name));
         const slim = (xs: any[]) => xs.map(({ name, affinity, popularity, address, tags }) => ({ name, affinity, popularity, address, tags }));
         return {
           result: { city: args.city, venues: slim(venues), opener_candidates: slim(openers), brands: slim(brands), local_hangouts: slim(hangouts), podcasts: slim(podcasts) },
@@ -272,6 +277,18 @@ export async function runScout(input: ScoutInput, emit: (e: ScoutEvent) => void)
         };
       }
       case "submit_plan": {
+        const unknown = (args.stops as any[]).flatMap((s) =>
+          [s.venue, ...(s.openers ?? []).map((o: any) => o.name)].filter((n) => n && !seen.has(key(n))),
+        );
+        if (unknown.length && rejections < 2) {
+          rejections++;
+          return {
+            result: {
+              error: `These names did not come from scout_city results: ${unknown.join(", ")}. Replace them with venues and openers from the tool results, or scout the city first.`,
+            },
+            summary: `Sent back ${unknown.length} names that Qloo didn't return`,
+          };
+        }
         const start = home ? { label: cityLabel(home), lat: home.lat, lon: home.lon } : undefined;
         const located = (args.stops as any[]).map((s) => {
           const c = findCity(s.city);
