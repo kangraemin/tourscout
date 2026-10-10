@@ -40,6 +40,7 @@ npm run dev
 | `QLOO_BASE_URL` | no | Defaults to `https://hackathon.api.qloo.com` |
 | `TOURSCOUT_MODEL` | no | Defaults to `claude-opus-5-5` |
 | `RUNS_PER_HOUR` | no | Per-IP limit on agent runs, default 6 |
+| `RUNS_PER_DAY` | no | Site-wide daily limit on agent runs, default 150 |
 
 ## Stack
 
