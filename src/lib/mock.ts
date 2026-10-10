@@ -58,14 +58,17 @@ export function respond(path: string, p: Record<string, string>): any {
     const m = /POLYGON\(\(([-\d.]+) ([-\d.]+), ([-\d.]+) [-\d.]+, [-\d.]+ ([-\d.]+)/.exec(p["filter.location"] ?? "");
     const [x1, y1, x2, y2] = m ? [m[1], m[2], m[3], m[4]].map(Number) : [-125, 24, -66, 50];
     const inBox = CITIES.filter((c) => c.lon >= x1 && c.lon <= x2 && c.lat >= y1 && c.lat <= y2);
-    return {
-      results: {
-        heatmap: inBox.map((c) => ({
-          location: { latitude: c.lat + (rnd() - 0.5) * 0.05, longitude: c.lon + (rnd() - 0.5) * 0.05 },
-          query: { affinity: Math.round(rnd() ** 1.6 * 1000) / 1000, popularity: Math.min(1, Math.log10(c.pop) / 7.2) },
-        })),
-      },
-    };
+    // Like the real API: sorted by affinity, paged by take/page.
+    const cells = inBox
+      .map((c) => ({
+        location: { latitude: c.lat + (rnd() - 0.5) * 0.05, longitude: c.lon + (rnd() - 0.5) * 0.05 },
+        query: { affinity: Math.round(rnd() ** 1.6 * 1000) / 1000, popularity: Math.min(1, Math.log10(c.pop) / 7.2) },
+      }))
+      .sort((a, b) => b.query.affinity - a.query.affinity)
+      .map((c, i, all) => ({ ...c, query: { ...c.query, affinity_rank: Math.round((1 - i / all.length) * 1000) / 1000 } }));
+    const take = Number(p.take ?? 20);
+    const page = Number(p.page ?? 1);
+    return { results: { heatmap: cells.slice((page - 1) * take, page * take) } };
   }
   if (type === "urn:entity:artist") {
     const names = [...SAMPLE_ARTISTS].sort(() => rnd() - 0.5).slice(0, Number(p.take ?? 8));
@@ -74,7 +77,7 @@ export function respond(path: string, p: Record<string, string>): any {
         entities: names.map((n, i) => ({
           entity_id: `sample-${n}`,
           name: n,
-          popularity: 0.5 + rnd() * 0.4,
+          popularity: (0.5 + rnd() * 0.4) * Number(p["filter.popularity.max"] ?? 1),
           query: { affinity: Math.round((0.95 - i * 0.06) * 1000) / 1000 },
           tags: [{ name: "Indie Rock", type: "urn:tag:genre:music" }],
         })),

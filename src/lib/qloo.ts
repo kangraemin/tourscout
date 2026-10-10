@@ -1,4 +1,4 @@
-import { CITIES, City, cityLabel, findCity, haversineKm, nearestCity } from "./geo";
+import { CITIES, City, cityLabel, findCity, haversineKm, metroPop, nearestCity } from "./geo";
 import { Region, regionWkt } from "./regions";
 import * as mock from "./mock";
 
@@ -69,15 +69,22 @@ export class Qloo {
    * Taste heatmap: where people whose taste matches this artist live, relative to everyone else.
    * Geohash cells are rolled up to the nearest city in our table.
    */
-  async heatmap(artistId: string, region: Region) {
-    const d = await this.get("/v2/insights", {
-      "filter.type": "urn:heatmap",
-      "signal.interests.entities": artistId,
-      "filter.location": regionWkt(region),
-      take: 50,
-    });
-    const cells: any[] = d?.results?.heatmap ?? [];
-    const byCity = new Map<string, { city: City; aff: number[]; pop: number[] }>();
+  async heatmap(artistId: string, region: Region, pages = Number(process.env.HEATMAP_PAGES ?? 4)) {
+    // take is capped at 50 per page, so walk a few pages to cover mid-sized markets, not just the top 50 cells.
+    const cells: any[] = [];
+    for (let page = 1; page <= pages; page++) {
+      const d = await this.get("/v2/insights", {
+        "filter.type": "urn:heatmap",
+        "signal.interests.entities": artistId,
+        "filter.location": regionWkt(region),
+        take: 50,
+        page,
+      });
+      const got: any[] = d?.results?.heatmap ?? [];
+      cells.push(...got);
+      if (got.length < 50) break;
+    }
+    const byCity = new Map<string, { city: City; aff: number[]; rank: number[]; pop: number[] }>();
     for (const cell of cells) {
       const lat = cell.location?.latitude ?? cell.location?.lat;
       const lon = cell.location?.longitude ?? cell.location?.lon;
@@ -85,19 +92,21 @@ export class Qloo {
       const city = nearestCity(lat, lon);
       if (!city || !region.countries.includes(city.cc)) continue;
       const k = cityLabel(city);
-      const row = byCity.get(k) ?? { city, aff: [], pop: [] };
-      row.aff.push(Number(cell.query?.affinity ?? cell.query?.affinity_rank ?? 0));
+      const row = byCity.get(k) ?? { city, aff: [], rank: [], pop: [] };
+      row.aff.push(Number(cell.query?.affinity ?? 0));
+      if (cell.query?.affinity_rank != null) row.rank.push(Number(cell.query.affinity_rank));
       row.pop.push(Number(cell.query?.popularity ?? 0));
       byCity.set(k, row);
     }
     const max = (xs: number[]) => xs.reduce((a, b) => Math.max(a, b), 0);
     return [...byCity.values()]
-      .map(({ city, aff, pop }) => ({
+      .map(({ city, aff, rank, pop }) => ({
         city: cityLabel(city),
         lat: city.lat,
         lon: city.lon,
-        population: city.pop,
+        population: metroPop(city),
         affinity: round(max(aff)) ?? 0,
+        affinityRank: rank.length ? round(max(rank)) : undefined,
         popularity: round(max(pop)) ?? 0,
         cells: aff.length,
       }))
@@ -105,12 +114,13 @@ export class Qloo {
   }
 
   /** Artists that share this artist's audience, optionally the ones that over-index in one city. */
-  async similarArtists(artistId: string, city?: string, take = 8) {
+  async similarArtists(artistId: string, city?: string, take = 8, maxPopularity?: number) {
     const d = await this.get("/v2/insights", {
       "filter.type": "urn:entity:artist",
       "signal.interests.entities": artistId,
       "signal.location.query": city,
       "filter.exclude.entities": artistId,
+      "filter.popularity.max": maxPopularity,
       take,
     });
     return (d?.results?.entities ?? []).map(toEntity);
@@ -122,12 +132,13 @@ export class Qloo {
   }
 
   /** Music venues in a city ranked by how well their crowd matches the artist's audience. */
-  async venues(artistId: string, city: string, venueTagId?: string, take = 8) {
+  async venues(artistId: string, city: string, venueTagId?: string, take = 8, fanAge?: string) {
     const d = await this.get("/v2/insights", {
       "filter.type": "urn:entity:place",
       "filter.location.query": city,
       "filter.tags": venueTagId,
       "signal.interests.entities": artistId,
+      "signal.demographics.age": fanAge,
       take,
     });
     return (d?.results?.entities ?? []).map(toEntity);

@@ -1,1 +1,7 @@
-[{"id": "sample-wednesday", "title": "Wednesday, 5 dates from Asheville", "blurb": "Sample run (placeholder data)"}]
+[
+  {
+    "id": "sample-wednesday",
+    "title": "Wednesday, 5 dates from Asheville",
+    "blurb": "Sample run on placeholder data until the Qloo key is live"
+  }
+]

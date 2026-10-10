@@ -12,8 +12,12 @@ type Props = {
   bbox: [number, number, number, number];
 };
 
-export default function TourMap({ cities, stops, baseline, home, bbox }: Props) {
+export default function TourMap(props: Props) {
   const el = useRef<HTMLDivElement>(null);
+  // Leaflet loads asynchronously; draw from the latest props, not the ones from the first render.
+  const latest = useRef(props);
+  latest.current = props;
+  const { cities, stops, baseline, home, bbox } = props;
   const map = useRef<LMap | null>(null);
   const layer = useRef<LayerGroup | null>(null);
   const L = useRef<typeof import("leaflet") | null>(null);
@@ -50,6 +54,7 @@ export default function TourMap({ cities, stops, baseline, home, bbox }: Props) 
     const m = map.current;
     const g = layer.current;
     if (!mod || !m || !g) return;
+    const { cities, stops, baseline, home, bbox } = latest.current;
     g.clearLayers();
 
     const [x1, y1, x2, y2] = bbox;
@@ -59,8 +64,10 @@ export default function TourMap({ cities, stops, baseline, home, bbox }: Props) 
     m.fitBounds(bounds.pad(stops.length ? 0.25 : 0), { animate: false });
 
     // Taste heat: circle size = affinity, faded for cities already played.
+    // Shrink the circles on narrow maps so they don't blanket the route.
+    const scale = Math.min(1, Math.max(0.45, m.getSize().x / 900));
     for (const c of cities.slice(0, 120)) {
-      const r = 4 + Math.max(0, c.affinity) * 22;
+      const r = (4 + Math.max(0, c.affinity) * 22) * scale;
       mod
         .circleMarker([c.lat, c.lon], {
           radius: r,

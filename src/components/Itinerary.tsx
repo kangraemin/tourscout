@@ -1,7 +1,54 @@
 "use client";
 
 import { useState } from "react";
-import type { Plan } from "@/lib/agent";
+import type { Plan, PlanStop } from "@/lib/agent";
+
+const people = (n: number) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)} million` : `${Math.round(n / 1000)}k`);
+
+function dayLabel(s: PlanStop) {
+  if (!s.date) return null;
+  const d = new Date(`${s.date}T12:00:00Z`);
+  return `${s.weekday} ${d.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" })}`;
+}
+
+// The Qloo numbers behind a stop, so a manager can see what they'd be overruling.
+function Evidence({ s }: { s: PlanStop }) {
+  const e = s.evidence;
+  if (!e) return null;
+  return (
+    <dl className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+      {e.tasteRank && (
+        <div>
+          <dt className="inline text-muted">Taste rank </dt>
+          <dd className="inline font-semibold tabular-nums">
+            #{e.tasteRank} of {e.of}
+          </dd>
+        </div>
+      )}
+      {e.metroPop > 0 && (
+        <div>
+          <dt className="inline text-muted">Metro </dt>
+          <dd className="inline font-semibold tabular-nums">about {people(e.metroPop)}</dd>
+        </div>
+      )}
+      {e.opportunity !== undefined && (
+        <div>
+          <dt className="inline text-muted">Taste vs size </dt>
+          <dd className={`inline font-semibold tabular-nums ${e.opportunity > 0 ? "text-shield" : ""}`}>
+            {e.opportunity > 0 ? "+" : ""}
+            {Math.round(e.opportunity * 100)}
+          </dd>
+        </div>
+      )}
+      {e.venueAffinity !== undefined && (
+        <div>
+          <dt className="inline text-muted">Room&apos;s crowd match </dt>
+          <dd className="inline font-semibold tabular-nums">{Math.round(e.venueAffinity * 100)}</dd>
+        </div>
+      )}
+    </dl>
+  );
+}
 
 export default function Itinerary({ plan, home }: { plan: Plan; home?: { label: string } }) {
   const [copied, setCopied] = useState<number | null>(null);
@@ -9,7 +56,7 @@ export default function Itinerary({ plan, home }: { plan: Plan; home?: { label: 
   function asText() {
     const lines = [`${plan.artist}: ${plan.headline}`, "", plan.summary, ""];
     plan.stops.forEach((s, i) => {
-      lines.push(`${i + 1}. ${s.city} (${s.driveHoursFromPrev}h drive)`);
+      lines.push(`${i + 1}. ${s.date ? `${s.weekday} ${s.date}, ` : ""}${s.city} (${s.driveHoursFromPrev}h drive)`);
       lines.push(`   Venue: ${s.venue.name}${s.venue.alternates.length ? ` (backup: ${s.venue.alternates.join(", ")})` : ""}`);
       if (s.openers.length) lines.push(`   Openers: ${s.openers.map((o) => o.name).join(", ")}`);
       lines.push(`   Why: ${s.why}`);
@@ -55,10 +102,12 @@ export default function Itinerary({ plan, home }: { plan: Plan; home?: { label: 
                 <div className="flex items-center gap-3">
                   <span className="shield">{i + 1}</span>
                   <h3 className="display text-2xl font-extrabold">{s.city}</h3>
+                  {dayLabel(s) && <span className="rounded border border-ink px-2 py-0.5 text-sm font-semibold">{dayLabel(s)}</span>}
                   {s.affinity > 0 && (
                     <span className="rounded bg-hot px-2 py-0.5 text-sm font-semibold">taste match {(s.affinity * 100).toFixed(0)}</span>
                   )}
                 </div>
+                <Evidence s={s} />
                 <p className="mt-3 max-w-[62ch]">{s.why}</p>
                 <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                   <div>
@@ -66,6 +115,7 @@ export default function Itinerary({ plan, home }: { plan: Plan; home?: { label: 
                     <dd className="font-semibold">{s.venue.name}</dd>
                     <dd className="text-sm">{s.venue.why}</dd>
                     {s.venue.alternates.length > 0 && <dd className="mt-1 text-sm text-muted">Backup: {s.venue.alternates.join(", ")}</dd>}
+                    {s.evidence?.roomCheck && <dd className="mt-1 text-sm text-route">{s.evidence.roomCheck}</dd>}
                   </div>
                   <div>
                     <dt className="text-sm text-muted">Ask to open</dt>

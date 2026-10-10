@@ -7,6 +7,8 @@ export type City = {
   lat: number;
   lon: number;
   pop: number;
+  m?: number; // metro population estimate, set on metro anchors only
+  a?: number; // index of the metro anchor this city belongs to
 };
 
 export const CITIES = citiesRaw as City[];
@@ -52,18 +54,28 @@ export function findCity(q: string): City | undefined {
   return (qualified.length ? qualified : pool).sort((a, b) => b.pop - a.pop)[0];
 }
 
-/**
- * Name a geohash cell after the market it belongs to: the largest city within `maxKm`,
- * so a cell in a suburb rolls up to the metro a band would actually book.
- */
+/** The metro a city belongs to (Aurora, IL -> Chicago). Anchors were precomputed from GeoNames. */
+export function metroOf(c: City): City {
+  return c.a !== undefined ? CITIES[c.a] : c;
+}
+
+export function metroPop(c: City) {
+  return metroOf(c).m ?? c.pop;
+}
+
+/** Name a heatmap cell after the market a band would book: nearest city within `maxKm`, rolled up to its metro. */
 export function nearestCity(lat: number, lon: number, maxKm = 35): City | undefined {
   let best: City | undefined;
+  let bestD = Infinity;
   for (const c of CITIES) {
     if (Math.abs(c.lat - lat) > 1 || Math.abs(c.lon - lon) > 1.5) continue;
-    if (haversineKm({ lat, lon }, c) > maxKm) continue;
-    if (!best || c.pop > best.pop) best = c;
+    const d = haversineKm({ lat, lon }, c);
+    if (d < bestD) {
+      bestD = d;
+      best = c;
+    }
   }
-  return best;
+  return best && bestD <= maxKm ? metroOf(best) : undefined;
 }
 
 export type Stop = { label: string; lat: number; lon: number };

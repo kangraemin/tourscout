@@ -19,7 +19,10 @@ type Form = {
   dates: number;
   maxDriveHours: number;
   notes: string;
+  startDate: string;
 };
+
+export type BaselineChecks = { legsOver: number; longestLeg: number; totalDrive: number; radiusConflicts: number };
 
 export type Run = {
   input: Form;
@@ -29,11 +32,13 @@ export type Run = {
   plan?: Plan;
   calls: QlooCall[];
   baseline: { label: string; lat: number; lon: number }[];
+  baselineUnmatched?: string[];
+  baselineChecks?: BaselineChecks;
 };
 
 type Example = { id: string; title: string; blurb: string };
 
-const EMPTY: Form = { artist: "", region: "na", homeCity: "", played: "", dates: 6, maxDriveHours: 7, notes: "" };
+const EMPTY: Form = { artist: "", region: "na", homeCity: "", played: "", dates: 6, maxDriveHours: 7, notes: "", startDate: "" };
 
 export default function Home() {
   const [form, setForm] = useState<Form>(EMPTY);
@@ -45,21 +50,25 @@ export default function Home() {
   useEffect(() => {
     fetch("/examples/index.json")
       .then((r) => (r.ok ? r.json() : []))
-      .then(setExamples)
+      .then((list: Example[]) => {
+        setExamples(list);
+        // Open on a finished plan so the first screen shows what the tool produces.
+        if (list[0]) loadExample(list[0].id, false);
+      })
       .catch(() => setExamples([]));
   }, []);
 
   const region = regionById(form.region);
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm((f) => ({ ...f, [k]: v }));
 
-  async function loadExample(id: string) {
+  async function loadExample(id: string, scroll = true) {
     setError(null);
     const r = await fetch(`/examples/${id}.json`);
     if (!r.ok) return setError("That example could not be loaded. Try another one or run your own.");
     const saved: Run = await r.json();
-    setForm(saved.input);
+    setForm({ ...EMPTY, ...saved.input });
     setRun(saved);
-    document.getElementById("results")?.scrollIntoView({ behavior: "smooth" });
+    if (scroll) document.getElementById("results")?.scrollIntoView({ behavior: "smooth" });
   }
 
   async function scout(e: React.FormEvent) {
@@ -75,13 +84,14 @@ export default function Home() {
       dates: form.dates,
       maxDriveHours: form.maxDriveHours,
       notes: form.notes.trim() || undefined,
+      startDate: form.startDate || undefined,
     };
     const fresh: Run = { input: form, trace: [], cities: [], calls: [], baseline: [] };
     setRun(fresh);
 
     fetch("/api/baseline", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
       .then((r) => (r.ok ? r.json() : { cities: [] }))
-      .then((d) => setRun((cur) => (cur ? { ...cur, baseline: d.cities ?? [] } : cur)))
+      .then((d) => setRun((cur) => (cur ? { ...cur, baseline: d.cities ?? [], baselineUnmatched: d.unmatched, baselineChecks: d.checks } : cur)))
       .catch(() => {});
 
     try {
@@ -179,7 +189,7 @@ export default function Home() {
               <input type="number" min={2} max={12} className="field" value={form.dates} onChange={(e) => set("dates", Number(e.target.value))} />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="font-semibold">Max drive per day</span>
+              <span className="font-semibold">Max drive</span>
               <select className="field" value={form.maxDriveHours} onChange={(e) => set("maxDriveHours", Number(e.target.value))}>
                 {[4, 5, 6, 7, 8, 10, 12].map((h) => (
                   <option key={h} value={h}>
@@ -187,6 +197,10 @@ export default function Home() {
                   </option>
                 ))}
               </select>
+            </label>
+            <label className="flex flex-col gap-1">
+              <span className="font-semibold">Earliest start</span>
+              <input type="date" className="field" value={form.startDate} onChange={(e) => set("startDate", e.target.value)} />
             </label>
           </div>
           <label className="flex flex-col gap-1">
@@ -214,7 +228,7 @@ export default function Home() {
           )}
         </form>
 
-        <div className="flex flex-col gap-4" id="results">
+        <div className={`flex flex-col gap-4 ${run ? "order-first lg:order-none" : ""}`} id="results">
           {sample && (
             <p className="rounded-md border-2 border-hot bg-[#fff8dc] px-4 py-2 text-sm">
               Sample data: this deployment has no Qloo key yet, so cities, venues and artists below are placeholders.
@@ -263,7 +277,7 @@ export default function Home() {
       {run?.plan && (
         <>
           <Itinerary plan={run.plan} home={run.home} />
-          <Compare plan={run.plan} baseline={run.baseline} cities={run.cities} />
+          <Compare plan={run.plan} baseline={run.baseline} unmatched={run.baselineUnmatched} checks={run.baselineChecks} cities={run.cities} maxDrive={run.input.maxDriveHours} />
           <CallLog calls={run.calls} trace={run.trace} />
         </>
       )}
