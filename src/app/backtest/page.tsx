@@ -70,7 +70,7 @@ export default function Backtest() {
         the model&apos;s training cutoff, so the model may simply remember them.
         And this test rewards guessing where a band already goes. TourScout is
         built to find the cities the usual routing skips, and a test like this
-        can't reward that. 24 bands is a small sample.
+        can&apos;t reward that. 24 bands is a small sample.
       </p>
 
       {!r && (
