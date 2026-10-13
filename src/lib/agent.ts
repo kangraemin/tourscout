@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { CITIES, cityLabel, driveHours, findCity, haversineKm, metroOf, metroPop, routeStops } from "./geo";
 import { LIVE_MUSIC_VENUE, Qloo, qlooMode } from "./qloo";
+import { recentShows } from "./setlist";
 import { REGIONS, regionById } from "./regions";
 
 export const MODEL = process.env.TOURSCOUT_MODEL ?? "claude-opus-5-5";
@@ -190,6 +191,8 @@ Your job: pick the cities for a short headline run where this artist's audience 
 
 How to work:
 - Resolve the artist, check the fan profile, scan the region. The heatmap is your main evidence; do not fall back on "big cities are safe" thinking. A mid-size city with high affinity usually beats a giant market with average affinity for an act at this level.
+- lookup_artist also returns their recent shows from setlist.fm. Cities from the last 12 months are already added to the played list. Use the venues they've been playing to judge room size: don't put an act that sells out theaters into a 100-cap bar, or a bar band into a theater.
+- Never write "first time", "never played" or "debut" about a city unless tour_history covers it and shows no show there. The history only goes back about 18 months, so say "first time here in over a year" at most.
 - Leave out cities the artist already played unless the manager asks for them, and avoid stops within about 120 km of each other or of a played metro. Venues put radius clauses in offers, so two nearby dates can cost you both.
 - Openers come back already filtered to acts smaller than the headliner. Pick ones whose fans over-index in that city.
 - The calendar puts the strongest metros on Friday and Saturday, so you don't need to order the stops.
@@ -277,7 +280,49 @@ export async function runScout(input: ScoutInput, emit: (e: ScoutEvent) => void)
       case "lookup_artist": {
         const r = await qloo.searchArtist(args.name);
         if (r[0]?.popularity != null) artistPop = r[0].popularity;
-        return { result: r, summary: r.length ? `Found ${r[0].name}` : "No match" };
+        if (!r.length) return { result: r, summary: "No match" };
+        const norm = (x: string) => x.toLowerCase().replace(/[^a-z0-9]+/g, "");
+        if (norm(r[0].name) !== norm(args.name))
+          return {
+            result: {
+              matches: r.map(({ mbid, ...e }) => e),
+              note: `Qloo has no artist named exactly "${args.name}". These are different acts. Do not plan for them; submit nothing and tell the user the artist isn't in Qloo's catalog yet, and suggest trying a similar, better-known act they share a bill with.`,
+            },
+            summary: `No exact match for ${args.name} in Qloo`,
+          };
+        // Where they have actually been. Cities from the last 12 months count as played; the venues
+        // tell the agent what size of room this act has been filling.
+        const since = new Date(Date.now() - 548 * 86400000).toISOString().slice(0, 10);
+        const yearAgo = new Date(Date.now() - 365 * 86400000).toISOString().slice(0, 10);
+        const shows = await recentShows(r[0].mbid, r[0].name, since).catch(() => undefined);
+        const inRegion = (shows ?? []).filter((s) => {
+          const c = findCity(s.city);
+          return c && region.countries.includes(c.cc);
+        });
+        const added: string[] = [];
+        for (const s of inRegion) {
+          if (s.date < yearAgo || played.has(s.city)) continue;
+          const c = findCity(s.city);
+          if (!c) continue;
+          const m = metroOf(c);
+          played.add(cityLabel(m));
+          playedMetros.push(m);
+          added.push(cityLabel(m));
+        }
+        const history = shows
+          ? {
+              source: "setlist.fm",
+              covers_since: since,
+              shows_in_region: inRegion.slice(0, 40).map(({ date, city, venue }) => ({ date, city, venue })),
+              added_to_played_from_last_12_months: added,
+            }
+          : { source: "setlist.fm", note: "No show history available. Do not claim anything about where they have or haven't played." };
+        return {
+          result: { matches: r.map(({ mbid, ...e }) => e), tour_history: history },
+          summary: shows
+            ? `Found ${r[0].name} · ${inRegion.length} shows in ${region.label} since ${since.slice(0, 7)} (setlist.fm)`
+            : `Found ${r[0].name}`,
+        };
       }
       case "fan_profile": {
         const r = await qloo.audience(args.artist_id);
@@ -385,7 +430,9 @@ export async function runScout(input: ScoutInput, emit: (e: ScoutEvent) => void)
           const roomCheck =
             v?.popularity != null && artistPop != null && v.popularity > artistPop + 0.1
               ? "This room is better known than the band. Check the capacity before pitching."
-              : undefined;
+              : v?.popularity != null && artistPop != null && artistPop > 0.9 && v.popularity < 0.2
+                ? "This room may be small for an act at this level. Compare it with the rooms on recent tours."
+                : undefined;
           return {
             city: s.label,
             lat: s.lat,

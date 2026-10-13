@@ -55,13 +55,20 @@ export function findCity(q: string): City | undefined {
   const parts = q.split(",").map((p) => norm(p));
   const name = parts[0];
   const qual = parts[1];
-  const hits = CITIES.filter((c) => norm(c.n) === name);
-  const pool = hits.length ? hits : CITIES.filter((c) => norm(c.n).startsWith(name));
-  if (!pool.length) return undefined;
-  const qualified = qual
-    ? pool.filter((c) => norm(c.a1) === qual || norm(c.cc) === qual || norm(ADMIN1[c.cc]?.[c.a1] ?? "") === qual)
-    : pool;
-  return (qualified.length ? qualified : pool).sort((a, b) => b.pop - a.pop)[0];
+  const matchesQual = (c: City) =>
+    norm(c.a1) === qual || norm(c.cc) === qual || norm(ADMIN1[c.cc]?.[c.a1] ?? "") === qual || (qual === "uk" && c.cc === "GB");
+  const exact = CITIES.filter((c) => norm(c.n) === name);
+  const prefix = CITIES.filter((c) => norm(c.n).startsWith(name));
+  const byPop = (xs: City[]) => xs.sort((a, b) => b.pop - a.pop)[0];
+  if (!qual) return byPop(exact.length ? exact : prefix);
+  // With a state or country given, never fall back to a same-named city elsewhere:
+  // "Huntington, WV" used to resolve to Huntington Beach, CA, which rolled up to Los Angeles.
+  const qe = exact.filter(matchesQual);
+  if (qe.length) return byPop(qe);
+  const qp = prefix.filter(matchesQual);
+  if (qp.length) return byPop(qp);
+  // A two-letter state or country code that matched nothing means the city isn't in our table.
+  return qual.length === 2 ? undefined : byPop(exact.length ? exact : prefix);
 }
 
 /** The metro a city belongs to (Aurora, IL -> Chicago). Anchors were precomputed from GeoNames. */

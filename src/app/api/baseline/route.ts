@@ -3,11 +3,14 @@ import { MODEL, RADIUS_KM, ScoutInput } from "@/lib/agent";
 import { regionById } from "@/lib/regions";
 import { cityLabel, driveHours, findCity, haversineKm, metroOf, routeStops } from "@/lib/geo";
 import { allow } from "@/lib/ratelimit";
+import { recentShows } from "@/lib/setlist";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 // The same question asked to the same model with no Qloo access, shown next to the plan for comparison.
+// It gets everything the agent gets except Qloo: the same booking rules, the same setlist.fm history,
+// the same effort setting. So the gap between the two is down to the taste data.
 export async function POST(req: Request) {
   const parsed = ScoutInput.safeParse(await req.json().catch(() => ({})));
   if (!parsed.success) return Response.json({ error: "Bad input" }, { status: 400 });
@@ -15,11 +18,20 @@ export async function POST(req: Request) {
   if (!allow(`baseline:${ip}`)) return Response.json({ cities: [] }, { status: 429 });
   const i = parsed.data;
   const client = new Anthropic();
+  const region = regionById(i.region);
+  const since = new Date(Date.now() - 548 * 86400000).toISOString().slice(0, 10);
+  const yearAgo = new Date(Date.now() - 365 * 86400000).toISOString().slice(0, 10);
+  const shows = (await recentShows(undefined, i.artist, since).catch(() => undefined)) ?? [];
+  const inRegion = shows.filter((s) => {
+    const c = findCity(s.city);
+    return c && region.countries.includes(c.cc);
+  });
+  const playedAll = [...new Set([...i.playedCities, ...inRegion.filter((s) => s.date >= yearAgo).map((s) => s.city)])];
   const res = await client.messages.create({
     model: MODEL,
     max_tokens: 2000,
     output_config: {
-      effort: "low",
+      effort: "medium",
       format: {
         type: "json_schema",
         schema: {
@@ -33,7 +45,16 @@ export async function POST(req: Request) {
     messages: [
       {
         role: "user",
-        content: `Pick exactly ${i.dates} different cities in ${regionById(i.region).label} for a headline run by ${i.artist}, starting from ${i.homeCity || "anywhere"}. Skip: ${i.playedCities.join(", ") || "none"}. Max ${i.maxDriveHours}h drive per leg. Return city names as "City, ST" or "City, Country".`,
+        content: [
+          `Pick exactly ${i.dates} different cities in ${region.label} for a headline run by ${i.artist}. The van starts from ${i.homeCity || "anywhere"}; the home city is not one of the show dates.`,
+          `Pick the cities where this artist's audience is strongest but they haven't played. Already played, skip: ${playedAll.join("; ") || "none"}.`,
+          `Rules: max ${i.maxDriveHours}h drive per leg. No two stops within ${RADIUS_KM} km of each other or of a played city (venue radius clauses).`,
+          inRegion.length ? `Recent shows (setlist.fm): ${JSON.stringify(inRegion.slice(0, 40).map(({ date, city, venue }) => ({ date, city, venue })))}` : "",
+          i.notes ? `Manager's notes: ${i.notes}` : "",
+          `Return city names as "City, ST" or "City, Country".`,
+        ]
+          .filter(Boolean)
+          .join("\n"),
       },
     ],
   } as any);
@@ -52,7 +73,7 @@ export async function POST(req: Request) {
       prev = s;
       return h;
     });
-    const played = i.playedCities.map((q) => findCity(q)).filter(Boolean).map((c) => metroOf(c!));
+    const played = playedAll.map((q) => findCity(q)).filter(Boolean).map((c) => metroOf(c!));
     let radius = 0;
     ordered.forEach((s, k) => {
       if (played.some((p) => haversineKm(p, s) < RADIUS_KM)) radius++;

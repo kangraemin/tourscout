@@ -5,7 +5,9 @@
  * played) and an "after" window. Each method then names 10 cities the band has not played yet, and we count
  * how many of those the band really played in the after window.
  *
- * The after window starts after the model's training cutoff, so the no-Qloo model can't just remember tours.
+ * Caveat: most shows in the after window were announced months ahead, possibly before the model's training
+ * cutoff, so the model may remember some of them. Model vs model + Qloo is the fair comparison: both runs
+ * share that knowledge, and the only difference is the Qloo shortlist.
  *
  *   SETLISTFM_API_KEY=... QLOO_API_KEY=... ANTHROPIC_API_KEY=... npx tsx scripts/backtest.ts [artists.txt]
  *
@@ -28,10 +30,13 @@ import { regionById } from "../src/lib/regions";
 import { MODEL } from "../src/lib/agent";
 
 const BEFORE_FROM = process.env.BT_BEFORE_FROM ?? "2025-07-01";
-const AFTER_FROM = process.env.BT_AFTER_FROM ?? "2026-07-01"; // after the model's training cutoff
+const AFTER_FROM = process.env.BT_AFTER_FROM ?? "2026-07-01";
 const K = 10;
 const MIN_NEW = Number(process.env.BT_MIN_NEW ?? 2); // artists with fewer new cities in the after window tell us nothing
 const COUNTRIES = ["US", "CA"];
+// BT_NO_MODEL=1 runs only the Qloo and population methods (no Anthropic calls) and writes BT_OUT instead.
+const NO_MODEL = process.env.BT_NO_MODEL === "1";
+const OUT = process.env.BT_OUT ?? path.join(__dirname, "../public/backtest.json");
 
 const SL_KEY = process.env.SETLISTFM_API_KEY;
 if (!SL_KEY) throw new Error("SETLISTFM_API_KEY is not set");
@@ -110,8 +115,10 @@ function byPopulation(played: Set<string>) {
 }
 
 async function byQloo(q: Qloo, artist: string, played: Set<string>) {
+  const norm = (x: string) => x.toLowerCase().replace(/[^a-z0-9]+/g, "");
   const hit = (await q.searchArtist(artist))[0];
-  if (!hit?.id) return { taste: [], tasteAndSize: [], shortlist: [] as any[] };
+  // A near-miss ("Greg Freeman" -> Greg Laswell) would score another act's fans, so treat it as no data.
+  if (!hit?.id || norm(hit.name) !== norm(artist)) return { taste: [], tasteAndSize: [], shortlist: [] as any[] };
   const rows = (await q.heatmap(hit.id, regionById("na"))).filter(
     (r) => !played.has(r.city),
   );
@@ -129,15 +136,21 @@ async function byQloo(q: Qloo, artist: string, played: Set<string>) {
         (r.affinityRank ?? r.affinity) *
         Math.log10(Math.max(r.population, 10_000)),
     ),
-    // What the agent sees from scan_region: the top metros by taste, with their numbers.
-    shortlist: [...rows]
-      .sort(
-        (a, b) =>
-          (b.affinityRank ?? b.affinity) * Math.log10(Math.max(b.population, 10_000)) -
-          (a.affinityRank ?? a.affinity) * Math.log10(Math.max(a.population, 10_000)),
-      )
-      .slice(0, 30)
-      .map((r) => ({ city: r.city, affinity: r.affinity, affinity_rank: r.affinityRank, metro_population: r.population })),
+    // Same list the app's scan_region tool hands the agent: the first 30 metros in heatmap order
+    // (minus ones already played), with the same taste-vs-size "opportunity" score.
+    shortlist: (() => {
+      const n = rows.length || 1;
+      const tk = (r: (typeof rows)[number]) => r.affinityRank ?? r.affinity;
+      const affRank = new Map([...rows].sort((a, b) => tk(b) - tk(a)).map((r, i) => [r.city, 1 - i / n]));
+      const sizeRank = new Map([...rows].sort((a, b) => b.population - a.population).map((r, i) => [r.city, 1 - i / n]));
+      return rows.slice(0, 30).map((r) => ({
+        city: r.city,
+        affinity: r.affinity,
+        qloo_affinity_rank: r.affinityRank,
+        population: r.population,
+        opportunity: Math.round(((affRank.get(r.city) ?? 0) - (sizeRank.get(r.city) ?? 0)) * 100) / 100,
+      }));
+    })(),
   };
 }
 
@@ -165,7 +178,7 @@ async function byModel(artist: string, played: Set<string>, qlooShortlist?: obje
         role: "user",
         content: `Name ${K} different cities in the US or Canada where ${artist} is most likely to play a show in the second half of 2026, leaving out cities they already played since ${BEFORE_FROM}: ${[...played].join("; ") || "none"}. Return names as "City, ST".${
           qlooShortlist?.length
-            ? `\n\nQloo taste data for ${artist}: metros where people with matching taste over-index (affinity and affinity_rank are 0-1 percentiles; higher means a stronger match), with metro population. Use it alongside what you know.\n${JSON.stringify(qlooShortlist)}`
+            ? `\n\nQloo taste data for ${artist}, the same list TourScout's agent gets: metros where people with matching taste over-index (affinity is a 0-1 percentile; higher means a stronger match), metro population, and opportunity (taste rank minus size rank; positive means the metro punches above its size). Use it alongside what you know.\n${JSON.stringify(qlooShortlist)}`
             : ""
         }`,
       },
@@ -206,13 +219,12 @@ async function main() {
       );
       continue;
     }
-    const base = {
-      population: byPopulation(s.before),
-      model: await byModel(s.name, s.before),
-    };
     const qloo = await byQloo(q, s.name, s.before);
-    const modelQloo = qloo.shortlist.length ? await byModel(s.name, s.before, qloo.shortlist) : [];
-    const picks = { ...base, qloo: qloo.taste, qlooSized: qloo.tasteAndSize, modelQloo };
+    const picks: Record<string, string[]> = { population: byPopulation(s.before), qloo: qloo.taste, qlooSized: qloo.tasteAndSize };
+    if (!NO_MODEL) {
+      picks.model = await byModel(s.name, s.before);
+      picks.modelQloo = qloo.shortlist.length ? await byModel(s.name, s.before, qloo.shortlist) : [];
+    }
     const hits = Object.fromEntries(
       Object.entries(picks).map(([k, v]) => [
         k,
@@ -232,7 +244,9 @@ async function main() {
       `of ${truth.length}`,
     );
   }
-  const methods = ["population", "qloo", "qlooSized", "model", "modelQloo"] as const;
+  const methods = NO_MODEL
+    ? ["population", "qloo", "qlooSized"]
+    : ["population", "qloo", "qlooSized", "model", "modelQloo"];
   const summary = Object.fromEntries(
     methods.map((m) => {
       const h = rows.reduce((a, r) => a + r.hits[m].length, 0);
@@ -244,6 +258,31 @@ async function main() {
       ];
     }),
   );
+  // Head to head per artist, and hits outside the 25 biggest metros (the cities a "play the big ones" habit skips).
+  const big = new Set(
+    [...byLabel.entries()].sort((a, b) => metroPop(b[1]) - metroPop(a[1])).slice(0, 25).map(([l]) => l),
+  );
+  const h2h = (a: string, b: string) => {
+    let win = 0, loss = 0, tie = 0;
+    for (const r of rows) {
+      const x = r.hits[a].length, y = r.hits[b].length;
+      if (x > y) win++;
+      else if (x < y) loss++;
+      else tie++;
+    }
+    return { win, loss, tie };
+  };
+  const discovery = Object.fromEntries(
+    methods.map((m) => {
+      const picks = rows.flatMap((r) => r.picks[m].filter((c: string) => !big.has(c)));
+      const hits = rows.flatMap((r) => r.hits[m].filter((c: string) => !big.has(c)));
+      return [m, { picks: picks.length, hits: hits.length, hitRate: picks.length ? hits.length / picks.length : 0 }];
+    }),
+  );
+  const headToHead = {
+    qlooSized_vs_population: h2h("qlooSized", "population"),
+    ...(NO_MODEL ? {} : { modelQloo_vs_model: h2h("modelQloo", "model") }),
+  };
   const out = {
     generatedAt: new Date().toISOString(),
     before: { from: BEFORE_FROM, to: AFTER_FROM },
@@ -252,13 +291,15 @@ async function main() {
     qlooMode: process.env.QLOO_API_KEY ? "live" : "sample",
     artists: rows.length,
     summary,
+    discovery,
+    headToHead,
     rows,
   };
   fs.writeFileSync(
-    path.join(__dirname, "../public/backtest.json"),
+    OUT,
     JSON.stringify(out, null, 2),
   );
-  console.log(JSON.stringify(summary, null, 2));
+  console.log(JSON.stringify({ summary, discovery, headToHead }, null, 2));
 }
 
 main();

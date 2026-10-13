@@ -87,7 +87,10 @@ export class Qloo {
   async searchArtist(query: string) {
     const d = await this.get("/search", { query, types: "urn:entity:artist", take: 5 });
     const list: any[] = d?.results ?? [];
-    return list.map(toEntity);
+    // Search ranks famous near-matches first ("Greg Freeman" -> Greg Laswell); put exact names on top.
+    const norm = (x: string) => x.toLowerCase().replace(/[^a-z0-9]+/g, "");
+    const exact = (e: any) => norm(e.name ?? "") === norm(query);
+    return [...list.filter(exact), ...list.filter((e) => !exact(e))].map(toEntity);
   }
 
   /** Audience age/gender skew for an artist's fans. */
@@ -248,6 +251,7 @@ function toEntity(e: any) {
     lon: e?.location?.lon ?? p.geocode?.longitude,
     image: p.image?.url ?? p.images?.[0]?.url,
     url: p.website ?? p.external?.website,
+    mbid: p.external?.musicbrainz?.id as string | undefined,
   };
 }
 
