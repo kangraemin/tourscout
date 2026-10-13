@@ -69,8 +69,8 @@ export default function Backtest() {
         caveats. Most shows in this window were announced months ahead, before
         the model&apos;s training cutoff, so the model may simply remember them.
         And this test rewards guessing where a band already goes. TourScout is
-        built to find cities the routing habit skips, which a test like this
-        can only partly see. 24 bands is a small sample.
+        built to find the cities the usual routing skips, and a test like this
+        can't reward that. 24 bands is a small sample.
       </p>
 
       {!r && (
