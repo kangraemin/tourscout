@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { CITIES, cityLabel, driveHours, findCity, haversineKm, metroOf, metroPop, routeStops } from "./geo";
-import { Qloo, qlooMode } from "./qloo";
+import { LIVE_MUSIC_VENUE, Qloo, qlooMode } from "./qloo";
 import { REGIONS, regionById } from "./regions";
 
 export const MODEL = process.env.TOURSCOUT_MODEL ?? "claude-opus-5-5";
@@ -319,8 +319,9 @@ export async function runScout(input: ScoutInput, emit: (e: ScoutEvent) => void)
       }
       case "scout_city": {
         if (venueTag === null) {
-          const tags = await qloo.findTag("music venue").catch(() => []);
-          venueTag = tags[0]?.id;
+          // Qloo's place category tag for live music rooms; the generic "music venue" setting tag misses most clubs.
+          const tags = await qloo.findTag("live music venue").catch(() => []);
+          venueTag = tags.find((t: { id?: string }) => t.id === LIVE_MUSIC_VENUE)?.id ?? tags[0]?.id ?? LIVE_MUSIC_VENUE;
         }
         // Openers should draw less than the headliner.
         const openerCap = artistPop != null ? Math.max(0.05, Math.round((artistPop - 0.03) * 100) / 100) : undefined;

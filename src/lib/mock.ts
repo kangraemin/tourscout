@@ -41,7 +41,7 @@ export function respond(path: string, p: Record<string, string>): any {
 
   const type = p["filter.type"];
   const sig = p["signal.interests.entities"] ?? "";
-  const city = p["signal.location.query"] ?? p["filter.location.query"] ?? "";
+  const city = p["signal.location.query"] ?? p["filter.location.query"] ?? p["signal.location"] ?? (p["filter.location"]?.startsWith("POINT") ? p["filter.location"] : "") ?? "";
   const rnd = seed(sig + city + type);
 
   if (type === "urn:demographics") {

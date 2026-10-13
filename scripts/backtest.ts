@@ -111,7 +111,7 @@ function byPopulation(played: Set<string>) {
 
 async function byQloo(q: Qloo, artist: string, played: Set<string>) {
   const hit = (await q.searchArtist(artist))[0];
-  if (!hit?.id) return { taste: [], tasteAndSize: [] };
+  if (!hit?.id) return { taste: [], tasteAndSize: [], shortlist: [] as any[] };
   const rows = (await q.heatmap(hit.id, regionById("na"))).filter(
     (r) => !played.has(r.city),
   );
@@ -129,12 +129,22 @@ async function byQloo(q: Qloo, artist: string, played: Set<string>) {
         (r.affinityRank ?? r.affinity) *
         Math.log10(Math.max(r.population, 10_000)),
     ),
+    // What the agent sees from scan_region: the top metros by taste, with their numbers.
+    shortlist: [...rows]
+      .sort(
+        (a, b) =>
+          (b.affinityRank ?? b.affinity) * Math.log10(Math.max(b.population, 10_000)) -
+          (a.affinityRank ?? a.affinity) * Math.log10(Math.max(a.population, 10_000)),
+      )
+      .slice(0, 30)
+      .map((r) => ({ city: r.city, affinity: r.affinity, affinity_rank: r.affinityRank, metro_population: r.population })),
   };
 }
 
 const claude = new Anthropic();
 
-async function byModel(artist: string, played: Set<string>) {
+// Same model, same prompt. The only difference between the two runs is whether Qloo's shortlist is in it.
+async function byModel(artist: string, played: Set<string>, qlooShortlist?: object[]) {
   const res = await claude.messages.create({
     model: MODEL,
     max_tokens: 1500,
@@ -153,7 +163,11 @@ async function byModel(artist: string, played: Set<string>) {
     messages: [
       {
         role: "user",
-        content: `Name ${K} different cities in the US or Canada where ${artist} is most likely to play a show in the second half of 2026, leaving out cities they already played since ${BEFORE_FROM}: ${[...played].join("; ") || "none"}. Return names as "City, ST".`,
+        content: `Name ${K} different cities in the US or Canada where ${artist} is most likely to play a show in the second half of 2026, leaving out cities they already played since ${BEFORE_FROM}: ${[...played].join("; ") || "none"}. Return names as "City, ST".${
+          qlooShortlist?.length
+            ? `\n\nQloo taste data for ${artist}: metros where people with matching taste over-index (affinity and affinity_rank are 0-1 percentiles; higher means a stronger match), with metro population. Use it alongside what you know.\n${JSON.stringify(qlooShortlist)}`
+            : ""
+        }`,
       },
     ],
   } as any);
@@ -197,7 +211,8 @@ async function main() {
       model: await byModel(s.name, s.before),
     };
     const qloo = await byQloo(q, s.name, s.before);
-    const picks = { ...base, qloo: qloo.taste, qlooSized: qloo.tasteAndSize };
+    const modelQloo = qloo.shortlist.length ? await byModel(s.name, s.before, qloo.shortlist) : [];
+    const picks = { ...base, qloo: qloo.taste, qlooSized: qloo.tasteAndSize, modelQloo };
     const hits = Object.fromEntries(
       Object.entries(picks).map(([k, v]) => [
         k,
@@ -217,7 +232,7 @@ async function main() {
       `of ${truth.length}`,
     );
   }
-  const methods = ["population", "qloo", "qlooSized", "model"] as const;
+  const methods = ["population", "qloo", "qlooSized", "model", "modelQloo"] as const;
   const summary = Object.fromEntries(
     methods.map((m) => {
       const h = rows.reduce((a, r) => a + r.hits[m].length, 0);

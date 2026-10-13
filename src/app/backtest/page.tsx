@@ -26,9 +26,10 @@ type Result = {
 };
 
 const METHODS: [string, string][] = [
-  ["qloo", "Qloo taste heatmap"],
-  ["qlooSized", "Qloo taste weighted by city size"],
+  ["modelQloo", "Model + Qloo shortlist (what TourScout does)"],
   ["model", "Same model, no Qloo"],
+  ["qlooSized", "Qloo taste weighted by city size"],
+  ["qloo", "Qloo taste only"],
   ["population", "Biggest metros"],
 ];
 
@@ -58,8 +59,18 @@ export default function Backtest() {
         {r?.before.to ?? "2026-07-01"} count as already played. Then each method
         names {r?.k ?? 10} cities the band hasn&apos;t played, and we check
         which of them the band actually played from{" "}
-        {r?.after.from ?? "2026-07-01"} on. That window starts after the
-        model&apos;s training cutoff, so the model can&apos;t remember the tour.
+        {r?.after.from ?? "2026-07-01"} on.
+      </p>
+      <p className="mt-3 max-w-[70ch]">
+        What the numbers say: Qloo&apos;s taste map, weighted by city size, beats
+        just picking the biggest metros. On the cities where those two
+        disagree, the Qloo picks were real stops 21% of the time against 15%.
+        Adding Qloo&apos;s shortlist to the model barely moved its hit rate. Two
+        caveats. Most shows in this window were announced months ahead, before
+        the model&apos;s training cutoff, so the model may simply remember them.
+        And this test rewards guessing where a band already goes. TourScout is
+        built to find cities the routing habit skips, which a test like this
+        can only partly see. 24 bands is a small sample.
       </p>
 
       {!r && (

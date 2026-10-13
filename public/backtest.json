@@ -1,0 +1,2313 @@
+{
+  "generatedAt": "2026-10-13T07:43:59.104Z",
+  "before": {
+    "from": "2025-07-01",
+    "to": "2026-07-01"
+  },
+  "after": {
+    "from": "2026-07-01"
+  },
+  "k": 10,
+  "qlooMode": "live",
+  "artists": 24,
+  "summary": {
+    "population": {
+      "hits": 43,
+      "picks": 240,
+      "hitRate": 0.17916666666666667,
+      "artistsWithAHit": 19
+    },
+    "qloo": {
+      "hits": 35,
+      "picks": 228,
+      "hitRate": 0.15350877192982457,
+      "artistsWithAHit": 17
+    },
+    "qlooSized": {
+      "hits": 48,
+      "picks": 228,
+      "hitRate": 0.21052631578947367,
+      "artistsWithAHit": 18
+    },
+    "model": {
+      "hits": 55,
+      "picks": 229,
+      "hitRate": 0.24017467248908297,
+      "artistsWithAHit": 22
+    },
+    "modelQloo": {
+      "hits": 56,
+      "picks": 229,
+      "hitRate": 0.2445414847161572,
+      "artistsWithAHit": 22
+    }
+  },
+  "rows": [
+    {
+      "artist": "Wednesday",
+      "playedBefore": 46,
+      "newCities": [
+        "Sacramento, CA",
+        "Providence, RI",
+        "Albany, NY",
+        "Des Moines, IA",
+        "Jonesboro, AR",
+        "O'Fallon, MO"
+      ],
+      "picks": {
+        "population": [
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "Tampa, FL",
+          "Ottawa, ON",
+          "Sacramento, CA",
+          "San Antonio, TX",
+          "Virginia Beach, VA",
+          "Kansas City, MO",
+          "Calgary, AB"
+        ],
+        "model": [
+          "Chattanooga, TN",
+          "Louisville, KY",
+          "Birmingham, AL",
+          "Memphis, TN",
+          "Houston, TX",
+          "Athens, GA",
+          "Charleston, SC",
+          "Lexington, KY",
+          "Madison, WI"
+        ],
+        "qloo": [
+          "Miami, FL",
+          "Coral Springs, FL",
+          "West Palm Beach, FL",
+          "Johnson City, TN",
+          "Orlando, FL",
+          "Savannah, GA",
+          "Charleston, SC",
+          "Wilmington, NC",
+          "Greenville, SC",
+          "Tampa, FL"
+        ],
+        "qlooSized": [
+          "Miami, FL",
+          "West Palm Beach, FL",
+          "Coral Springs, FL",
+          "Tampa, FL",
+          "Orlando, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "Memphis, TN",
+          "Charleston, SC",
+          "Jacksonville, FL"
+        ],
+        "modelQloo": [
+          "Houston, TX",
+          "Kansas City, MO",
+          "Louisville, KY",
+          "Cincinnati, OH",
+          "Athens, GA",
+          "Providence, RI",
+          "Sacramento, CA",
+          "Birmingham, AL",
+          "Orlando, FL",
+          "Tampa, FL"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Sacramento, CA"
+        ],
+        "model": [],
+        "qloo": [],
+        "qlooSized": [],
+        "modelQloo": [
+          "Providence, RI",
+          "Sacramento, CA"
+        ]
+      }
+    },
+    {
+      "artist": "Hurray for the Riff Raff",
+      "playedBefore": 24,
+      "newCities": [
+        "Edmonton, AB",
+        "Asheville, NC",
+        "Rogers, AR"
+      ],
+      "picks": {
+        "population": [
+          "Los Angeles, CA",
+          "Dallas, TX",
+          "Montreal, QC",
+          "Washington, DC",
+          "Phoenix, AZ",
+          "Boston, MA",
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "San Diego, CA"
+        ],
+        "model": [
+          "New Orleans, LA",
+          "Los Angeles, CA",
+          "San Francisco, CA",
+          "Portland, OR",
+          "Nashville, TN",
+          "Austin, TX",
+          "Boston, MA",
+          "Washington, DC",
+          "Minneapolis, MN",
+          "Denver, CO"
+        ],
+        "qloo": [
+          "New Orleans, LA",
+          "Austin, TX",
+          "Nashville, TN",
+          "Denver, CO",
+          "San Francisco, CA",
+          "Washington, DC",
+          "Las Vegas, NV",
+          "Los Angeles, CA"
+        ],
+        "qlooSized": [
+          "New Orleans, LA",
+          "Austin, TX",
+          "Nashville, TN",
+          "Denver, CO",
+          "San Francisco, CA",
+          "Washington, DC",
+          "Las Vegas, NV",
+          "Los Angeles, CA"
+        ],
+        "modelQloo": [
+          "New Orleans, LA",
+          "Austin, TX",
+          "Nashville, TN",
+          "Denver, CO",
+          "San Francisco, CA",
+          "Washington, DC",
+          "Los Angeles, CA",
+          "Portland, OR",
+          "Asheville, NC",
+          "Minneapolis, MN"
+        ]
+      },
+      "hits": {
+        "population": [],
+        "model": [],
+        "qloo": [],
+        "qlooSized": [],
+        "modelQloo": [
+          "Asheville, NC"
+        ]
+      }
+    },
+    {
+      "artist": "Snail Mail",
+      "playedBefore": 33,
+      "newCities": [
+        "Madison, WI",
+        "Pittsburgh, PA",
+        "Albany, NY",
+        "Providence, RI",
+        "Bridgeport, CT",
+        "Charlotte, NC",
+        "Missoula, MT"
+      ],
+      "picks": {
+        "population": [
+          "Montreal, QC",
+          "Miami, FL",
+          "San Jose, CA",
+          "Tampa, FL",
+          "Ottawa, ON",
+          "Las Vegas, NV",
+          "San Antonio, TX",
+          "Virginia Beach, VA",
+          "Kansas City, MO",
+          "Calgary, AB"
+        ],
+        "model": [
+          "Pittsburgh, PA",
+          "Columbus, OH",
+          "Cleveland, OH",
+          "St. Louis, MO",
+          "Kansas City, MO",
+          "Montreal, QC",
+          "Richmond, VA",
+          "New Orleans, LA",
+          "Louisville, KY"
+        ],
+        "qloo": [
+          "Portland, ME",
+          "Pittsburgh, PA",
+          "Madison, WI",
+          "Santa Fe, NM",
+          "Richmond, VA",
+          "Worcester, MA",
+          "Providence, RI",
+          "Montreal, QC",
+          "San Jose, CA",
+          "Columbus, OH"
+        ],
+        "qlooSized": [
+          "Montreal, QC",
+          "San Jose, CA",
+          "Ottawa, ON",
+          "Kansas City, MO",
+          "Miami, FL",
+          "Columbus, OH",
+          "Tampa, FL",
+          "Cleveland, OH",
+          "San Antonio, TX",
+          "Las Vegas, NV"
+        ],
+        "modelQloo": [
+          "Montreal, QC",
+          "Pittsburgh, PA",
+          "Columbus, OH",
+          "Richmond, VA",
+          "Providence, RI",
+          "St. Louis, MO",
+          "Kansas City, MO",
+          "Cleveland, OH",
+          "New Orleans, LA",
+          "Louisville, KY"
+        ]
+      },
+      "hits": {
+        "population": [],
+        "model": [
+          "Pittsburgh, PA"
+        ],
+        "qloo": [
+          "Pittsburgh, PA",
+          "Madison, WI",
+          "Providence, RI"
+        ],
+        "qlooSized": [],
+        "modelQloo": [
+          "Pittsburgh, PA",
+          "Providence, RI"
+        ]
+      }
+    },
+    {
+      "artist": "Squirrel Flower",
+      "playedBefore": 20,
+      "newCities": [
+        "Louisville, KY",
+        "Washington, DC",
+        "New York City, NY",
+        "Springfield, MA",
+        "Akron, OH"
+      ],
+      "picks": {
+        "population": [
+          "New York City, NY",
+          "Los Angeles, CA",
+          "Toronto, ON",
+          "Montreal, QC",
+          "Washington, DC",
+          "Phoenix, AZ",
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "Seattle, WA"
+        ],
+        "model": [
+          "New York City, NY",
+          "Los Angeles, CA",
+          "San Francisco, CA",
+          "Seattle, WA",
+          "Portland, OR",
+          "Toronto, ON",
+          "Montreal, QC",
+          "Washington, DC",
+          "Nashville, TN"
+        ],
+        "qloo": [
+          "Iowa City, IA",
+          "Springfield, MA",
+          "Des Moines, IA",
+          "Worcester, MA",
+          "Cedar Rapids, IA",
+          "Providence, RI",
+          "Lorain, OH",
+          "Davenport, IA",
+          "Ames, IA",
+          "Bloomington, IN"
+        ],
+        "qlooSized": [
+          "New York City, NY",
+          "Los Angeles, CA",
+          "Washington, DC",
+          "Montreal, QC",
+          "Toronto, ON",
+          "Seattle, WA",
+          "San Francisco, CA",
+          "Portland, OR",
+          "Springfield, MA",
+          "Denver, CO"
+        ],
+        "modelQloo": [
+          "New York City, NY",
+          "Los Angeles, CA",
+          "Washington, DC",
+          "Montreal, QC",
+          "Toronto, ON",
+          "Seattle, WA",
+          "San Francisco, CA",
+          "Portland, OR",
+          "Pittsburgh, PA",
+          "Nashville, TN"
+        ]
+      },
+      "hits": {
+        "population": [
+          "New York City, NY",
+          "Washington, DC"
+        ],
+        "model": [
+          "New York City, NY",
+          "Washington, DC"
+        ],
+        "qloo": [
+          "Springfield, MA"
+        ],
+        "qlooSized": [
+          "New York City, NY",
+          "Washington, DC",
+          "Springfield, MA"
+        ],
+        "modelQloo": [
+          "New York City, NY",
+          "Washington, DC"
+        ]
+      }
+    },
+    {
+      "artist": "Hovvdy",
+      "playedBefore": 12,
+      "newCities": [
+        "Salt Lake City, UT",
+        "Denver, CO",
+        "Omaha, NE",
+        "Lawrence, KS"
+      ],
+      "picks": {
+        "population": [
+          "Los Angeles, CA",
+          "Toronto, ON",
+          "Chicago, IL",
+          "Dallas, TX",
+          "Montreal, QC",
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "Seattle, WA",
+          "San Diego, CA"
+        ],
+        "model": [
+          "Chicago, IL",
+          "Los Angeles, CA",
+          "Austin, TX",
+          "Seattle, WA",
+          "Portland, OR",
+          "Toronto, ON",
+          "Denver, CO",
+          "Minneapolis, MN",
+          "Nashville, TN",
+          "Atlanta, GA"
+        ],
+        "qloo": [
+          "Austin, TX",
+          "San Antonio, TX",
+          "Portland, OR",
+          "Nashville, TN",
+          "Dallas, TX",
+          "New Orleans, LA",
+          "Chicago, IL",
+          "Seattle, WA",
+          "Portland, ME",
+          "Santa Fe, NM"
+        ],
+        "qlooSized": [
+          "Chicago, IL",
+          "Los Angeles, CA",
+          "Dallas, TX",
+          "Austin, TX",
+          "Seattle, WA",
+          "Houston, TX",
+          "Montreal, QC",
+          "Toronto, ON",
+          "San Antonio, TX",
+          "Portland, OR"
+        ],
+        "modelQloo": [
+          "Austin, TX",
+          "Chicago, IL",
+          "Los Angeles, CA",
+          "Seattle, WA",
+          "Portland, OR",
+          "Dallas, TX",
+          "Minneapolis, MN",
+          "Denver, CO",
+          "Nashville, TN",
+          "Toronto, ON"
+        ]
+      },
+      "hits": {
+        "population": [],
+        "model": [
+          "Denver, CO"
+        ],
+        "qloo": [],
+        "qlooSized": [],
+        "modelQloo": [
+          "Denver, CO"
+        ]
+      }
+    },
+    {
+      "artist": "Kevin Morby",
+      "playedBefore": 30,
+      "newCities": [
+        "Richmond, VA",
+        "Bloomington, IN"
+      ],
+      "picks": {
+        "population": [
+          "Miami, FL",
+          "San Jose, CA",
+          "Minneapolis, MN",
+          "Tampa, FL",
+          "Ottawa, ON",
+          "Sacramento, CA",
+          "Las Vegas, NV",
+          "San Antonio, TX",
+          "Virginia Beach, VA",
+          "Calgary, AB"
+        ],
+        "model": [
+          "Minneapolis, MN",
+          "Nashville, TN",
+          "Milwaukee, WI",
+          "Columbus, OH",
+          "Pittsburgh, PA",
+          "Asheville, NC",
+          "Raleigh, NC",
+          "Louisville, KY",
+          "Lawrence, KS",
+          "Richmond, VA"
+        ],
+        "qloo": [
+          "Lawrence, KS",
+          "Indio, CA",
+          "Portland, ME",
+          "Missoula, MT",
+          "Springfield, MA",
+          "Salinas, CA",
+          "Asheville, NC",
+          "Santa Barbara, CA",
+          "Oxnard, CA",
+          "Bend, OR"
+        ],
+        "qlooSized": [
+          "San Jose, CA",
+          "Minneapolis, MN",
+          "Sacramento, CA",
+          "Nashville, TN",
+          "Miami, FL",
+          "Milwaukee, WI",
+          "Ottawa, ON",
+          "San Antonio, TX",
+          "Baltimore, MD",
+          "Indianapolis, IN"
+        ],
+        "modelQloo": [
+          "Minneapolis, MN",
+          "Nashville, TN",
+          "Milwaukee, WI",
+          "Pittsburgh, PA",
+          "Louisville, KY",
+          "Columbus, OH",
+          "Albuquerque, NM",
+          "Raleigh, NC",
+          "Cleveland, OH",
+          "Tucson, AZ"
+        ]
+      },
+      "hits": {
+        "population": [],
+        "model": [
+          "Richmond, VA"
+        ],
+        "qloo": [],
+        "qlooSized": [],
+        "modelQloo": []
+      }
+    },
+    {
+      "artist": "Alex G",
+      "playedBefore": 26,
+      "newCities": [
+        "Charlotte, NC",
+        "Detroit, MI",
+        "Columbus, OH",
+        "Indianapolis, IN"
+      ],
+      "picks": {
+        "population": [
+          "Dallas, TX",
+          "Montreal, QC",
+          "Miami, FL",
+          "Houston, TX",
+          "Detroit, MI",
+          "Vancouver, BC",
+          "Tampa, FL",
+          "Ottawa, ON",
+          "San Antonio, TX",
+          "Virginia Beach, VA"
+        ],
+        "model": [
+          "Montreal, QC",
+          "Vancouver, BC",
+          "Detroit, MI",
+          "Pittsburgh, PA",
+          "Columbus, OH",
+          "St. Louis, MO",
+          "Kansas City, MO",
+          "Milwaukee, WI",
+          "Dallas, TX",
+          "New Orleans, LA"
+        ],
+        "qloo": [
+          "Portland, ME",
+          "Montreal, QC",
+          "Pittsburgh, PA",
+          "Asheville, NC",
+          "Vancouver, BC",
+          "Santa Barbara, CA",
+          "Springfield, MA",
+          "Milwaukee, WI",
+          "Madison, WI",
+          "San Clemente, CA"
+        ],
+        "qlooSized": [
+          "Montreal, QC",
+          "Dallas, TX",
+          "Vancouver, BC",
+          "Detroit, MI",
+          "Houston, TX",
+          "Miami, FL",
+          "Ottawa, ON",
+          "San Antonio, TX",
+          "Tampa, FL",
+          "Milwaukee, WI"
+        ],
+        "modelQloo": [
+          "Montreal, QC",
+          "Vancouver, BC",
+          "Detroit, MI",
+          "Dallas, TX",
+          "Pittsburgh, PA",
+          "Columbus, OH",
+          "Milwaukee, WI",
+          "Houston, TX",
+          "New Orleans, LA",
+          "Baltimore, MD"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Detroit, MI"
+        ],
+        "model": [
+          "Detroit, MI",
+          "Columbus, OH"
+        ],
+        "qloo": [],
+        "qlooSized": [
+          "Detroit, MI"
+        ],
+        "modelQloo": [
+          "Detroit, MI",
+          "Columbus, OH"
+        ]
+      }
+    },
+    {
+      "artist": "Ratboys",
+      "playedBefore": 42,
+      "newCities": [
+        "Champaign, IL",
+        "Cincinnati, OH",
+        "Des Moines, IA",
+        "Fort Collins, CO",
+        "Missoula, MT"
+      ],
+      "picks": {
+        "population": [
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "Tampa, FL",
+          "Ottawa, ON",
+          "Sacramento, CA",
+          "Las Vegas, NV",
+          "San Antonio, TX",
+          "Virginia Beach, VA",
+          "Calgary, AB"
+        ],
+        "model": [
+          "Cincinnati, OH",
+          "Ann Arbor, MI",
+          "Buffalo, NY",
+          "Iowa City, IA",
+          "Lawrence, KS",
+          "Houston, TX",
+          "New Orleans, LA"
+        ],
+        "qloo": [
+          "Davenport, IA",
+          "Champaign, IL",
+          "Kalamazoo, MI",
+          "Iowa City, IA",
+          "Gainesville, FL",
+          "Bloomington, IL",
+          "South Bend, IN",
+          "Lawrence, KS",
+          "Springfield, IL",
+          "Des Moines, IA"
+        ],
+        "qlooSized": [
+          "San Jose, CA",
+          "Houston, TX",
+          "Buffalo, NY",
+          "Providence, RI",
+          "Springfield, MA",
+          "Tampa, FL",
+          "Cincinnati, OH",
+          "Des Moines, IA",
+          "New Orleans, LA",
+          "Akron, OH"
+        ],
+        "modelQloo": [
+          "Cincinnati, OH",
+          "Buffalo, NY",
+          "Providence, RI",
+          "Des Moines, IA",
+          "New Orleans, LA",
+          "Houston, TX",
+          "Ann Arbor, MI",
+          "Champaign, IL",
+          "Iowa City, IA",
+          "Lexington, KY"
+        ]
+      },
+      "hits": {
+        "population": [],
+        "model": [
+          "Cincinnati, OH"
+        ],
+        "qloo": [
+          "Champaign, IL",
+          "Des Moines, IA"
+        ],
+        "qlooSized": [
+          "Cincinnati, OH",
+          "Des Moines, IA"
+        ],
+        "modelQloo": [
+          "Cincinnati, OH",
+          "Des Moines, IA",
+          "Champaign, IL"
+        ]
+      }
+    },
+    {
+      "artist": "Slow Pulp",
+      "playedBefore": 14,
+      "newCities": [
+        "Chicago, IL",
+        "New York City, NY"
+      ],
+      "picks": {
+        "population": [
+          "New York City, NY",
+          "Toronto, ON",
+          "Chicago, IL",
+          "Dallas, TX",
+          "Montreal, QC",
+          "Washington, DC",
+          "Boston, MA",
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA"
+        ],
+        "model": [
+          "Chicago, IL",
+          "Madison, WI",
+          "Minneapolis, MN",
+          "New York City, NY",
+          "Philadelphia, PA",
+          "Boston, MA",
+          "Toronto, ON",
+          "Washington, DC",
+          "Seattle, WA",
+          "Portland, OR"
+        ],
+        "qloo": [
+          "Madison, WI",
+          "Milwaukee, WI",
+          "Chicago, IL",
+          "Minneapolis, MN",
+          "Janesville, WI",
+          "Appleton, WI",
+          "Portland, OR",
+          "Eau Claire, WI",
+          "Austin, TX",
+          "Rockford, IL"
+        ],
+        "qlooSized": [
+          "New York City, NY",
+          "Chicago, IL",
+          "Minneapolis, MN",
+          "Boston, MA",
+          "Milwaukee, WI",
+          "Toronto, ON",
+          "Seattle, WA",
+          "Washington, DC",
+          "San Francisco, CA",
+          "Philadelphia, PA"
+        ],
+        "modelQloo": [
+          "Chicago, IL",
+          "New York City, NY",
+          "Minneapolis, MN",
+          "Milwaukee, WI",
+          "Boston, MA",
+          "Philadelphia, PA",
+          "Seattle, WA",
+          "Portland, OR",
+          "Toronto, ON",
+          "Madison, WI"
+        ]
+      },
+      "hits": {
+        "population": [
+          "New York City, NY",
+          "Chicago, IL"
+        ],
+        "model": [
+          "Chicago, IL",
+          "New York City, NY"
+        ],
+        "qloo": [
+          "Chicago, IL"
+        ],
+        "qlooSized": [
+          "New York City, NY",
+          "Chicago, IL"
+        ],
+        "modelQloo": [
+          "Chicago, IL",
+          "New York City, NY"
+        ]
+      }
+    },
+    {
+      "artist": "Momma",
+      "playedBefore": 24,
+      "newCities": [
+        "Richmond, VA",
+        "Los Angeles, CA",
+        "San Diego, CA",
+        "San Francisco, CA",
+        "Seattle, WA",
+        "Ogden, UT",
+        "Chicago, IL"
+      ],
+      "picks": {
+        "population": [
+          "Los Angeles, CA",
+          "Chicago, IL",
+          "Dallas, TX",
+          "Montreal, QC",
+          "Phoenix, AZ",
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "Seattle, WA",
+          "San Diego, CA"
+        ],
+        "model": [
+          "Chicago, IL",
+          "Los Angeles, CA",
+          "San Francisco, CA",
+          "Seattle, WA",
+          "Portland, OR",
+          "Denver, CO",
+          "Minneapolis, MN",
+          "Atlanta, GA",
+          "Montreal, QC",
+          "Vancouver, BC"
+        ],
+        "qloo": [
+          "Chicago, IL",
+          "Seattle, WA",
+          "San Francisco, CA",
+          "Portland, OR",
+          "Los Angeles, CA",
+          "Minneapolis, MN",
+          "San Jose, CA",
+          "New Orleans, LA",
+          "San Diego, CA",
+          "Montreal, QC"
+        ],
+        "qlooSized": [
+          "Los Angeles, CA",
+          "Chicago, IL",
+          "Seattle, WA",
+          "San Francisco, CA",
+          "Portland, OR",
+          "San Jose, CA",
+          "Minneapolis, MN",
+          "Montreal, QC",
+          "San Diego, CA",
+          "Phoenix, AZ"
+        ],
+        "modelQloo": [
+          "Los Angeles, CA",
+          "Chicago, IL",
+          "Seattle, WA",
+          "San Francisco, CA",
+          "Portland, OR",
+          "Minneapolis, MN",
+          "Denver, CO",
+          "Montreal, QC",
+          "San Diego, CA",
+          "Vancouver, BC"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Los Angeles, CA",
+          "Chicago, IL",
+          "Seattle, WA",
+          "San Diego, CA"
+        ],
+        "model": [
+          "Chicago, IL",
+          "Los Angeles, CA",
+          "San Francisco, CA",
+          "Seattle, WA"
+        ],
+        "qloo": [
+          "Chicago, IL",
+          "Seattle, WA",
+          "San Francisco, CA",
+          "Los Angeles, CA",
+          "San Diego, CA"
+        ],
+        "qlooSized": [
+          "Los Angeles, CA",
+          "Chicago, IL",
+          "Seattle, WA",
+          "San Francisco, CA",
+          "San Diego, CA"
+        ],
+        "modelQloo": [
+          "Los Angeles, CA",
+          "Chicago, IL",
+          "Seattle, WA",
+          "San Francisco, CA",
+          "San Diego, CA"
+        ]
+      }
+    },
+    {
+      "artist": "Hotline TNT",
+      "playedBefore": 36,
+      "newCities": [
+        "Milwaukee, WI",
+        "Sacramento, CA",
+        "San Francisco, CA",
+        "Phoenix, AZ",
+        "Albuquerque, NM",
+        "San Antonio, TX",
+        "Dallas, TX",
+        "Miami, FL",
+        "Tampa, FL",
+        "Virginia Beach, VA",
+        "Cleveland, OH",
+        "Eau Claire, WI"
+      ],
+      "picks": {
+        "population": [
+          "Dallas, TX",
+          "Phoenix, AZ",
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "San Diego, CA",
+          "San Francisco, CA",
+          "Tampa, FL",
+          "Ottawa, ON",
+          "Sacramento, CA"
+        ],
+        "model": [
+          "San Francisco, CA",
+          "San Diego, CA",
+          "Milwaukee, WI",
+          "Cleveland, OH",
+          "Kansas City, MO",
+          "Dallas, TX",
+          "Houston, TX",
+          "New Orleans, LA",
+          "Louisville, KY"
+        ],
+        "qloo": [
+          "Tulsa, OK",
+          "Oklahoma City, OK",
+          "Brownsville, TX",
+          "Grand Rapids, MI",
+          "Portland, ME",
+          "Worcester, MA",
+          "Waterbury, CT",
+          "Lawton, OK",
+          "Hartford, CT",
+          "Danbury, CT"
+        ],
+        "qlooSized": [
+          "Tulsa, OK",
+          "Oklahoma City, OK",
+          "Brownsville, TX",
+          "San Jose, CA",
+          "Grand Rapids, MI",
+          "Dallas, TX",
+          "San Francisco, CA",
+          "Hartford, CT",
+          "Cleveland, OH",
+          "Waterbury, CT"
+        ],
+        "modelQloo": [
+          "San Francisco, CA",
+          "Oklahoma City, OK",
+          "Dallas, TX",
+          "Cleveland, OH",
+          "Milwaukee, WI",
+          "Kansas City, MO",
+          "San Diego, CA",
+          "Louisville, KY",
+          "New Orleans, LA",
+          "Phoenix, AZ"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Dallas, TX",
+          "Phoenix, AZ",
+          "Miami, FL",
+          "San Francisco, CA",
+          "Tampa, FL",
+          "Sacramento, CA"
+        ],
+        "model": [
+          "San Francisco, CA",
+          "Milwaukee, WI",
+          "Cleveland, OH",
+          "Dallas, TX"
+        ],
+        "qloo": [],
+        "qlooSized": [
+          "Dallas, TX",
+          "San Francisco, CA",
+          "Cleveland, OH"
+        ],
+        "modelQloo": [
+          "San Francisco, CA",
+          "Dallas, TX",
+          "Cleveland, OH",
+          "Milwaukee, WI",
+          "Phoenix, AZ"
+        ]
+      }
+    },
+    {
+      "artist": "Wishy",
+      "playedBefore": 12,
+      "newCities": [
+        "Montreal, QC",
+        "Toronto, ON",
+        "Columbus, OH",
+        "Indianapolis, IN",
+        "Omaha, NE",
+        "Seattle, WA",
+        "Portland, OR",
+        "San Jose, CA",
+        "San Diego, CA",
+        "Santa Maria, CA",
+        "Las Vegas, NV",
+        "Tucson, AZ",
+        "Santa Fe, NM",
+        "Cleveland, OH"
+      ],
+      "picks": {
+        "population": [
+          "Toronto, ON",
+          "Dallas, TX",
+          "Montreal, QC",
+          "Washington, DC",
+          "Phoenix, AZ",
+          "Boston, MA",
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "Philadelphia, PA"
+        ],
+        "model": [
+          "Philadelphia, PA",
+          "Boston, MA",
+          "Washington, DC",
+          "Toronto, ON",
+          "Detroit, MI",
+          "Columbus, OH",
+          "Pittsburgh, PA",
+          "Minneapolis, MN",
+          "Indianapolis, IN",
+          "Seattle, WA"
+        ],
+        "qloo": [
+          "Santa Barbara, CA",
+          "Indio, CA",
+          "San Francisco, CA",
+          "Santa Rosa, CA",
+          "Fresno, CA",
+          "San Jose, CA",
+          "Las Vegas, NV",
+          "West Palm Beach, FL",
+          "Portland, OR",
+          "Temecula, CA"
+        ],
+        "qlooSized": [
+          "San Jose, CA",
+          "San Francisco, CA",
+          "Toronto, ON",
+          "Seattle, WA",
+          "San Diego, CA",
+          "Washington, DC",
+          "Philadelphia, PA",
+          "Las Vegas, NV",
+          "Minneapolis, MN",
+          "Portland, OR"
+        ],
+        "modelQloo": [
+          "Philadelphia, PA",
+          "Boston, MA",
+          "Washington, DC",
+          "Toronto, ON",
+          "San Francisco, CA",
+          "Seattle, WA",
+          "Portland, OR",
+          "Minneapolis, MN",
+          "Columbus, OH",
+          "Denver, CO"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Toronto, ON",
+          "Montreal, QC",
+          "San Jose, CA"
+        ],
+        "model": [
+          "Toronto, ON",
+          "Columbus, OH",
+          "Indianapolis, IN",
+          "Seattle, WA"
+        ],
+        "qloo": [
+          "San Jose, CA",
+          "Las Vegas, NV",
+          "Portland, OR"
+        ],
+        "qlooSized": [
+          "San Jose, CA",
+          "Toronto, ON",
+          "Seattle, WA",
+          "San Diego, CA",
+          "Las Vegas, NV",
+          "Portland, OR"
+        ],
+        "modelQloo": [
+          "Toronto, ON",
+          "Seattle, WA",
+          "Portland, OR",
+          "Columbus, OH"
+        ]
+      }
+    },
+    {
+      "artist": "feeble little horse",
+      "playedBefore": 20,
+      "newCities": [
+        "Montreal, QC",
+        "Louisville, KY",
+        "St. Louis, MO",
+        "Omaha, NE",
+        "Lawrence, KS",
+        "Dallas, TX",
+        "Austin, TX",
+        "Houston, TX",
+        "Nashville, TN",
+        "Atlanta, GA",
+        "Tampa, FL",
+        "Orlando, FL",
+        "Raleigh, NC",
+        "Richmond, VA"
+      ],
+      "picks": {
+        "population": [
+          "Toronto, ON",
+          "Dallas, TX",
+          "Montreal, QC",
+          "Washington, DC",
+          "Phoenix, AZ",
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "San Diego, CA",
+          "Vancouver, BC"
+        ],
+        "model": [
+          "Toronto, ON",
+          "Montreal, QC",
+          "Washington, DC",
+          "Baltimore, MD",
+          "Richmond, VA",
+          "Atlanta, GA",
+          "Nashville, TN",
+          "Austin, TX",
+          "Denver, CO",
+          "Vancouver, BC"
+        ],
+        "qloo": [
+          "Austin, TX",
+          "Washington, DC",
+          "Nashville, TN",
+          "Richmond, VA",
+          "Cincinnati, OH",
+          "Baltimore, MD",
+          "Boise, ID",
+          "Bridgeport, CT",
+          "Denver, CO",
+          "Phoenix, AZ"
+        ],
+        "qlooSized": [
+          "Washington, DC",
+          "Austin, TX",
+          "Nashville, TN",
+          "Phoenix, AZ",
+          "Denver, CO",
+          "Baltimore, MD",
+          "Cincinnati, OH",
+          "Richmond, VA",
+          "Montreal, QC",
+          "Bridgeport, CT"
+        ],
+        "modelQloo": [
+          "Washington, DC",
+          "Austin, TX",
+          "Nashville, TN",
+          "Denver, CO",
+          "Baltimore, MD",
+          "Richmond, VA",
+          "Toronto, ON",
+          "Atlanta, GA",
+          "Phoenix, AZ",
+          "Cincinnati, OH"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Dallas, TX",
+          "Montreal, QC",
+          "Houston, TX"
+        ],
+        "model": [
+          "Montreal, QC",
+          "Richmond, VA",
+          "Atlanta, GA",
+          "Nashville, TN",
+          "Austin, TX"
+        ],
+        "qloo": [
+          "Austin, TX",
+          "Nashville, TN",
+          "Richmond, VA"
+        ],
+        "qlooSized": [
+          "Austin, TX",
+          "Nashville, TN",
+          "Richmond, VA",
+          "Montreal, QC"
+        ],
+        "modelQloo": [
+          "Austin, TX",
+          "Nashville, TN",
+          "Richmond, VA",
+          "Atlanta, GA"
+        ]
+      }
+    },
+    {
+      "artist": "Friendship",
+      "playedBefore": 23,
+      "newCities": [
+        "Portland, OR",
+        "Bellingham, WA",
+        "Vancouver, BC",
+        "Oxnard, CA"
+      ],
+      "picks": {
+        "population": [
+          "Dallas, TX",
+          "Montreal, QC",
+          "Phoenix, AZ",
+          "Boston, MA",
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "Seattle, WA",
+          "Minneapolis, MN",
+          "Vancouver, BC"
+        ],
+        "model": [
+          "Boston, MA",
+          "Seattle, WA",
+          "Portland, OR",
+          "Minneapolis, MN",
+          "Atlanta, GA",
+          "Louisville, KY",
+          "Richmond, VA",
+          "Austin, TX",
+          "Montreal, QC"
+        ],
+        "qloo": [
+          "Boston, MA",
+          "Portland, ME",
+          "Springfield, MA",
+          "Austin, TX",
+          "Montreal, QC",
+          "Portland, OR",
+          "Albany, NY",
+          "Minneapolis, MN",
+          "Baltimore, MD",
+          "Providence, RI"
+        ],
+        "qlooSized": [
+          "Boston, MA",
+          "Montreal, QC",
+          "Minneapolis, MN",
+          "Austin, TX",
+          "Portland, OR",
+          "Springfield, MA",
+          "Portland, ME",
+          "Baltimore, MD",
+          "Albany, NY",
+          "Providence, RI"
+        ],
+        "modelQloo": [
+          "Boston, MA",
+          "Minneapolis, MN",
+          "Portland, OR",
+          "Seattle, WA",
+          "Montreal, QC",
+          "Austin, TX",
+          "Baltimore, MD",
+          "Portland, ME",
+          "Atlanta, GA",
+          "St. Louis, MO"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Vancouver, BC"
+        ],
+        "model": [
+          "Portland, OR"
+        ],
+        "qloo": [
+          "Portland, OR"
+        ],
+        "qlooSized": [
+          "Portland, OR"
+        ],
+        "modelQloo": [
+          "Portland, OR"
+        ]
+      }
+    },
+    {
+      "artist": "Militarie Gun",
+      "playedBefore": 50,
+      "newCities": [
+        "Milwaukee, WI",
+        "Cleveland, OH",
+        "Raleigh, NC",
+        "Nashville, TN",
+        "Miami, FL",
+        "Tampa, FL",
+        "Baton Rouge, LA"
+      ],
+      "picks": {
+        "population": [
+          "Montreal, QC",
+          "Miami, FL",
+          "San Jose, CA",
+          "San Diego, CA",
+          "Tampa, FL",
+          "Ottawa, ON",
+          "Virginia Beach, VA",
+          "Kansas City, MO",
+          "Indianapolis, IN",
+          "Charlotte, NC"
+        ],
+        "model": [
+          "San Diego, CA",
+          "Nashville, TN",
+          "Montreal, QC",
+          "Cleveland, OH",
+          "Milwaukee, WI",
+          "Kansas City, MO",
+          "Tampa, FL",
+          "Charlotte, NC",
+          "Cincinnati, OH",
+          "Tucson, AZ"
+        ],
+        "qloo": [
+          "Nashville, TN",
+          "Indianapolis, IN",
+          "Gainesville, FL",
+          "Milwaukee, WI",
+          "San Diego, CA",
+          "Providence, RI",
+          "Kansas City, MO",
+          "Portland, ME",
+          "Cleveland, OH",
+          "Grand Rapids, MI"
+        ],
+        "qlooSized": [
+          "Nashville, TN",
+          "San Diego, CA",
+          "Indianapolis, IN",
+          "Milwaukee, WI",
+          "Kansas City, MO",
+          "Montreal, QC",
+          "Providence, RI",
+          "Cleveland, OH",
+          "San Jose, CA",
+          "Charlotte, NC"
+        ],
+        "modelQloo": [
+          "Nashville, TN",
+          "San Diego, CA",
+          "Indianapolis, IN",
+          "Milwaukee, WI",
+          "Kansas City, MO",
+          "Montreal, QC",
+          "Providence, RI",
+          "Cleveland, OH",
+          "Cincinnati, OH",
+          "Grand Rapids, MI"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Miami, FL",
+          "Tampa, FL"
+        ],
+        "model": [
+          "Nashville, TN",
+          "Cleveland, OH",
+          "Milwaukee, WI",
+          "Tampa, FL"
+        ],
+        "qloo": [
+          "Nashville, TN",
+          "Milwaukee, WI",
+          "Cleveland, OH"
+        ],
+        "qlooSized": [
+          "Nashville, TN",
+          "Milwaukee, WI",
+          "Cleveland, OH"
+        ],
+        "modelQloo": [
+          "Nashville, TN",
+          "Milwaukee, WI",
+          "Cleveland, OH"
+        ]
+      }
+    },
+    {
+      "artist": "Mannequin Pussy",
+      "playedBefore": 21,
+      "newCities": [
+        "Edmonton, AB",
+        "Regina, SK",
+        "Winnipeg, MB",
+        "Fargo, ND",
+        "Madison, WI",
+        "Washington, DC",
+        "Nashville, TN",
+        "Cleveland, OH",
+        "Indianapolis, IN",
+        "Detroit, MI",
+        "Toronto, ON"
+      ],
+      "picks": {
+        "population": [
+          "Toronto, ON",
+          "Dallas, TX",
+          "Montreal, QC",
+          "Washington, DC",
+          "Houston, TX",
+          "San Diego, CA",
+          "Detroit, MI",
+          "Tampa, FL",
+          "Ottawa, ON",
+          "Atlanta, GA"
+        ],
+        "model": [
+          "Toronto, ON",
+          "Montreal, QC",
+          "Washington, DC",
+          "Atlanta, GA",
+          "Austin, TX",
+          "Nashville, TN",
+          "Pittsburgh, PA",
+          "Detroit, MI",
+          "Baltimore, MD",
+          "Richmond, VA"
+        ],
+        "qloo": [
+          "Springfield, MA",
+          "Pittsburgh, PA",
+          "Richmond, VA",
+          "Portland, ME",
+          "Austin, TX",
+          "Washington, DC",
+          "Baltimore, MD",
+          "Worcester, MA",
+          "Gainesville, FL",
+          "Rochester, NY"
+        ],
+        "qlooSized": [
+          "Washington, DC",
+          "Toronto, ON",
+          "Montreal, QC",
+          "Dallas, TX",
+          "Detroit, MI",
+          "San Diego, CA",
+          "Houston, TX",
+          "Austin, TX",
+          "Baltimore, MD",
+          "Cleveland, OH"
+        ],
+        "modelQloo": [
+          "Washington, DC",
+          "Toronto, ON",
+          "Montreal, QC",
+          "Austin, TX",
+          "Pittsburgh, PA",
+          "Baltimore, MD",
+          "Detroit, MI",
+          "Atlanta, GA",
+          "Dallas, TX",
+          "San Diego, CA"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Toronto, ON",
+          "Washington, DC",
+          "Detroit, MI"
+        ],
+        "model": [
+          "Toronto, ON",
+          "Washington, DC",
+          "Nashville, TN",
+          "Detroit, MI"
+        ],
+        "qloo": [
+          "Washington, DC"
+        ],
+        "qlooSized": [
+          "Washington, DC",
+          "Toronto, ON",
+          "Detroit, MI",
+          "Cleveland, OH"
+        ],
+        "modelQloo": [
+          "Washington, DC",
+          "Toronto, ON",
+          "Detroit, MI"
+        ]
+      }
+    },
+    {
+      "artist": "Jeff Rosenstock",
+      "playedBefore": 32,
+      "newCities": [
+        "Baltimore, MD",
+        "Virginia Beach, VA",
+        "Des Moines, IA",
+        "Omaha, NE",
+        "Milwaukee, WI",
+        "Grand Rapids, MI"
+      ],
+      "picks": {
+        "population": [
+          "Montreal, QC",
+          "Miami, FL",
+          "San Jose, CA",
+          "Vancouver, BC",
+          "Tampa, FL",
+          "Ottawa, ON",
+          "Las Vegas, NV",
+          "Virginia Beach, VA",
+          "Kansas City, MO",
+          "Calgary, AB"
+        ],
+        "model": [
+          "Montreal, QC",
+          "Milwaukee, WI",
+          "St. Louis, MO",
+          "Kansas City, MO",
+          "Nashville, TN",
+          "Louisville, KY",
+          "Baltimore, MD",
+          "Albuquerque, NM",
+          "Vancouver, BC"
+        ],
+        "qloo": [
+          "Portland, ME",
+          "Worcester, MA",
+          "Springfield, MA",
+          "Bridgeport, CT",
+          "Buffalo, NY",
+          "Providence, RI",
+          "Grand Rapids, MI",
+          "Milwaukee, WI",
+          "Rochester, NY",
+          "Albany, NY"
+        ],
+        "qlooSized": [
+          "Montreal, QC",
+          "San Jose, CA",
+          "Vancouver, BC",
+          "Ottawa, ON",
+          "Tampa, FL",
+          "Milwaukee, WI",
+          "Baltimore, MD",
+          "Las Vegas, NV",
+          "Kansas City, MO",
+          "St. Louis, MO"
+        ],
+        "modelQloo": [
+          "Montreal, QC",
+          "Baltimore, MD",
+          "Providence, RI",
+          "Milwaukee, WI",
+          "St. Louis, MO",
+          "Buffalo, NY",
+          "Vancouver, BC",
+          "Nashville, TN",
+          "Kansas City, MO"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Virginia Beach, VA"
+        ],
+        "model": [
+          "Milwaukee, WI",
+          "Baltimore, MD"
+        ],
+        "qloo": [
+          "Grand Rapids, MI",
+          "Milwaukee, WI"
+        ],
+        "qlooSized": [
+          "Milwaukee, WI",
+          "Baltimore, MD"
+        ],
+        "modelQloo": [
+          "Baltimore, MD",
+          "Milwaukee, WI"
+        ]
+      }
+    },
+    {
+      "artist": "Sierra Ferrell",
+      "playedBefore": 34,
+      "newCities": [
+        "San Jose, CA",
+        "Los Angeles, CA",
+        "Albuquerque, NM",
+        "Virginia Beach, VA",
+        "Johnson City, TN",
+        "Madison, WI",
+        "Greensboro, NC",
+        "Springfield, MA",
+        "Portland, ME",
+        "Toronto, ON",
+        "Pittsburgh, PA",
+        "Iowa City, IA",
+        "Birmingham, AL",
+        "Rogers, AR",
+        "Altamira, BR",
+        "Santa Barbara, CA"
+      ],
+      "picks": {
+        "population": [
+          "Los Angeles, CA",
+          "Toronto, ON",
+          "Dallas, TX",
+          "Montreal, QC",
+          "Phoenix, AZ",
+          "Boston, MA",
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "Detroit, MI"
+        ],
+        "model": [
+          "Louisville, KY",
+          "Atlanta, GA",
+          "Boston, MA",
+          "Los Angeles, CA",
+          "Toronto, ON",
+          "Pittsburgh, PA",
+          "Cincinnati, OH",
+          "Knoxville, TN",
+          "Kansas City, MO",
+          "Detroit, MI"
+        ],
+        "qloo": [
+          "Meads, KY",
+          "Santa Fe, NM",
+          "Johnson City, TN",
+          "Medford, OR",
+          "Lexington, KY",
+          "Knoxville, TN",
+          "Louisville, KY",
+          "Cincinnati, OH",
+          "Portland, ME",
+          "Boise, ID"
+        ],
+        "qlooSized": [
+          "Los Angeles, CA",
+          "Dallas, TX",
+          "Boston, MA",
+          "Toronto, ON",
+          "San Jose, CA",
+          "Phoenix, AZ",
+          "Montreal, QC",
+          "Houston, TX",
+          "Detroit, MI",
+          "Sacramento, CA"
+        ],
+        "modelQloo": [
+          "Louisville, KY",
+          "Lexington, KY",
+          "Boston, MA",
+          "Los Angeles, CA",
+          "Atlanta, GA",
+          "Kansas City, MO",
+          "Cincinnati, OH",
+          "Pittsburgh, PA",
+          "Toronto, ON",
+          "New Orleans, LA"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Los Angeles, CA",
+          "Toronto, ON",
+          "San Jose, CA"
+        ],
+        "model": [
+          "Los Angeles, CA",
+          "Toronto, ON",
+          "Pittsburgh, PA"
+        ],
+        "qloo": [
+          "Johnson City, TN",
+          "Portland, ME"
+        ],
+        "qlooSized": [
+          "Los Angeles, CA",
+          "Toronto, ON",
+          "San Jose, CA"
+        ],
+        "modelQloo": [
+          "Los Angeles, CA",
+          "Pittsburgh, PA",
+          "Toronto, ON"
+        ]
+      }
+    },
+    {
+      "artist": "Charley Crockett",
+      "playedBefore": 51,
+      "newCities": [
+        "Louisville, KY",
+        "Atlanta, GA",
+        "Youngstown, OH",
+        "Kansas City, MO",
+        "O'Fallon, MO",
+        "Madison, WI",
+        "Columbus, OH",
+        "Miami, FL",
+        "Orlando, FL",
+        "Mobile, AL",
+        "San Antonio, TX",
+        "Dallas, TX",
+        "Amarillo, TX",
+        "Tulsa, OK",
+        "San Francisco, CA",
+        "Bend, OR",
+        "Spokane, WA",
+        "Portland, OR",
+        "Nampa, ID",
+        "Altamira, BR",
+        "Casper, WY",
+        "Calgary, AB"
+      ],
+      "picks": {
+        "population": [
+          "Dallas, TX",
+          "Montreal, QC",
+          "Phoenix, AZ",
+          "Miami, FL",
+          "San Jose, CA",
+          "San Francisco, CA",
+          "Vancouver, BC",
+          "Ottawa, ON",
+          "Sacramento, CA",
+          "Atlanta, GA"
+        ],
+        "model": [
+          "Dallas, TX",
+          "San Antonio, TX",
+          "Atlanta, GA",
+          "St. Louis, MO",
+          "Kansas City, MO",
+          "Louisville, KY",
+          "Indianapolis, IN",
+          "Phoenix, AZ",
+          "Portland, OR",
+          "Vancouver, BC"
+        ],
+        "qloo": [
+          "San Antonio, TX",
+          "Dallas, TX",
+          "Amarillo, TX",
+          "Waco, TX",
+          "San Angelo, TX",
+          "Lubbock, TX",
+          "Tulsa, OK",
+          "Abilene, TX",
+          "Temple, TX",
+          "Santa Fe, NM"
+        ],
+        "qlooSized": [
+          "Dallas, TX",
+          "San Antonio, TX",
+          "Phoenix, AZ",
+          "San Francisco, CA",
+          "Portland, OR",
+          "Kansas City, MO",
+          "San Jose, CA",
+          "Sacramento, CA",
+          "Las Vegas, NV",
+          "Indianapolis, IN"
+        ],
+        "modelQloo": [
+          "Dallas, TX",
+          "San Antonio, TX",
+          "Kansas City, MO",
+          "Portland, OR",
+          "Tulsa, OK",
+          "Phoenix, AZ",
+          "San Francisco, CA",
+          "St. Louis, MO",
+          "Albuquerque, NM",
+          "Louisville, KY"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Dallas, TX",
+          "Miami, FL",
+          "San Francisco, CA",
+          "Atlanta, GA"
+        ],
+        "model": [
+          "Dallas, TX",
+          "San Antonio, TX",
+          "Atlanta, GA",
+          "Kansas City, MO",
+          "Louisville, KY",
+          "Portland, OR"
+        ],
+        "qloo": [
+          "San Antonio, TX",
+          "Dallas, TX",
+          "Amarillo, TX",
+          "Tulsa, OK"
+        ],
+        "qlooSized": [
+          "Dallas, TX",
+          "San Antonio, TX",
+          "San Francisco, CA",
+          "Portland, OR",
+          "Kansas City, MO"
+        ],
+        "modelQloo": [
+          "Dallas, TX",
+          "San Antonio, TX",
+          "Kansas City, MO",
+          "Portland, OR",
+          "Tulsa, OK",
+          "San Francisco, CA",
+          "Louisville, KY"
+        ]
+      }
+    },
+    {
+      "artist": "Mdou Moctar",
+      "playedBefore": 32,
+      "newCities": [
+        "Philadelphia, PA",
+        "Virginia Beach, VA",
+        "Bloomington, IN"
+      ],
+      "picks": {
+        "population": [
+          "Toronto, ON",
+          "Dallas, TX",
+          "Montreal, QC",
+          "Phoenix, AZ",
+          "Miami, FL",
+          "Philadelphia, PA",
+          "Detroit, MI",
+          "Vancouver, BC",
+          "Denver, CO",
+          "Tampa, FL"
+        ],
+        "model": [
+          "Philadelphia, PA",
+          "Toronto, ON",
+          "Montreal, QC",
+          "Denver, CO",
+          "Vancouver, BC",
+          "Pittsburgh, PA",
+          "Nashville, TN",
+          "Detroit, MI",
+          "Milwaukee, WI",
+          "Salt Lake City, UT"
+        ],
+        "qloo": [
+          "Springfield, MA",
+          "Portland, ME",
+          "Santa Fe, NM",
+          "Montreal, QC",
+          "Philadelphia, PA",
+          "Indio, CA",
+          "Santa Rosa, CA",
+          "Toronto, ON",
+          "Detroit, MI",
+          "Denver, CO"
+        ],
+        "qlooSized": [
+          "Toronto, ON",
+          "Montreal, QC",
+          "Philadelphia, PA",
+          "Detroit, MI",
+          "Denver, CO",
+          "Vancouver, BC",
+          "Ottawa, ON",
+          "Dallas, TX",
+          "Phoenix, AZ",
+          "Sacramento, CA"
+        ],
+        "modelQloo": [
+          "Toronto, ON",
+          "Montreal, QC",
+          "Philadelphia, PA",
+          "Denver, CO",
+          "Vancouver, BC",
+          "Detroit, MI",
+          "Pittsburgh, PA",
+          "Nashville, TN",
+          "Ottawa, ON",
+          "Tucson, AZ"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Philadelphia, PA"
+        ],
+        "model": [
+          "Philadelphia, PA"
+        ],
+        "qloo": [
+          "Philadelphia, PA"
+        ],
+        "qlooSized": [
+          "Philadelphia, PA"
+        ],
+        "modelQloo": [
+          "Philadelphia, PA"
+        ]
+      }
+    },
+    {
+      "artist": "Men I Trust",
+      "playedBefore": 40,
+      "newCities": [
+        "Bakersfield, CA",
+        "Sacramento, CA",
+        "Honolulu, HI",
+        "Halifax, NS"
+      ],
+      "picks": {
+        "population": [
+          "San Diego, CA",
+          "San Francisco, CA",
+          "Sacramento, CA",
+          "Virginia Beach, VA",
+          "Indianapolis, IN",
+          "Columbus, OH",
+          "Baltimore, MD",
+          "Cleveland, OH",
+          "Jacksonville, FL",
+          "Raleigh, NC"
+        ],
+        "model": [
+          "San Francisco, CA",
+          "San Diego, CA",
+          "Columbus, OH",
+          "Cleveland, OH",
+          "Indianapolis, IN",
+          "Raleigh, NC",
+          "Sacramento, CA",
+          "Winnipeg, MB"
+        ],
+        "qloo": [
+          "Saguenay, QC",
+          "Trois-Rivieres, QC",
+          "Sherbrooke, QC",
+          "San Francisco, CA",
+          "San Diego, CA",
+          "Santa Barbara, CA",
+          "Victoria, BC",
+          "Sacramento, CA",
+          "Indio, CA",
+          "San Clemente, CA"
+        ],
+        "qlooSized": [
+          "San Francisco, CA",
+          "San Diego, CA",
+          "Sacramento, CA",
+          "Victoria, BC",
+          "San Bernardino, CA",
+          "Trois-Rivieres, QC",
+          "Baltimore, MD",
+          "Saguenay, QC",
+          "Sherbrooke, QC",
+          "Raleigh, NC"
+        ],
+        "modelQloo": [
+          "San Francisco, CA",
+          "San Diego, CA",
+          "Sacramento, CA",
+          "Victoria, BC",
+          "Winnipeg, MB",
+          "Baltimore, MD",
+          "Raleigh, NC",
+          "Columbus, OH",
+          "Cleveland, OH",
+          "Albuquerque, NM"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Sacramento, CA"
+        ],
+        "model": [
+          "Sacramento, CA"
+        ],
+        "qloo": [
+          "Sacramento, CA"
+        ],
+        "qlooSized": [
+          "Sacramento, CA"
+        ],
+        "modelQloo": [
+          "Sacramento, CA"
+        ]
+      }
+    },
+    {
+      "artist": "Black Country, New Road",
+      "playedBefore": 10,
+      "newCities": [
+        "Atlanta, GA",
+        "Orlando, FL",
+        "Miami, FL",
+        "Tampa, FL",
+        "Asheville, NC",
+        "Raleigh, NC",
+        "Winnipeg, MB",
+        "Boston, MA",
+        "Portland, ME",
+        "Baltimore, MD",
+        "Richmond, VA",
+        "Pittsburgh, PA"
+      ],
+      "picks": {
+        "population": [
+          "Los Angeles, CA",
+          "Chicago, IL",
+          "Dallas, TX",
+          "Washington, DC",
+          "Phoenix, AZ",
+          "Boston, MA",
+          "Miami, FL",
+          "Houston, TX",
+          "San Jose, CA",
+          "Seattle, WA"
+        ],
+        "model": [
+          "Chicago, IL",
+          "Los Angeles, CA",
+          "San Francisco, CA",
+          "Seattle, WA",
+          "Portland, OR",
+          "Vancouver, BC",
+          "Boston, MA",
+          "Washington, DC",
+          "Minneapolis, MN",
+          "Denver, CO"
+        ],
+        "qloo": [
+          "San Francisco, CA",
+          "Chicago, IL",
+          "Austin, TX",
+          "Boston, MA",
+          "Seattle, WA",
+          "Washington, DC",
+          "Los Angeles, CA",
+          "Vancouver, BC",
+          "Portland, OR",
+          "Minneapolis, MN"
+        ],
+        "qlooSized": [
+          "Los Angeles, CA",
+          "Chicago, IL",
+          "Boston, MA",
+          "Washington, DC",
+          "San Francisco, CA",
+          "Seattle, WA",
+          "Vancouver, BC",
+          "Austin, TX",
+          "Minneapolis, MN",
+          "Portland, OR"
+        ],
+        "modelQloo": [
+          "Los Angeles, CA",
+          "Chicago, IL",
+          "Boston, MA",
+          "San Francisco, CA",
+          "Seattle, WA",
+          "Washington, DC",
+          "Vancouver, BC",
+          "Austin, TX",
+          "Portland, OR",
+          "Minneapolis, MN"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Boston, MA",
+          "Miami, FL"
+        ],
+        "model": [
+          "Boston, MA"
+        ],
+        "qloo": [
+          "Boston, MA"
+        ],
+        "qlooSized": [
+          "Boston, MA"
+        ],
+        "modelQloo": [
+          "Boston, MA"
+        ]
+      }
+    },
+    {
+      "artist": "Geese",
+      "playedBefore": 30,
+      "newCities": [
+        "Richmond, VA",
+        "Des Moines, IA",
+        "Montreal, QC"
+      ],
+      "picks": {
+        "population": [
+          "Montreal, QC",
+          "Miami, FL",
+          "San Jose, CA",
+          "Tampa, FL",
+          "Ottawa, ON",
+          "Sacramento, CA",
+          "Las Vegas, NV",
+          "San Antonio, TX",
+          "Virginia Beach, VA",
+          "Kansas City, MO"
+        ],
+        "model": [
+          "Montreal, QC",
+          "Pittsburgh, PA",
+          "Cleveland, OH",
+          "Columbus, OH",
+          "St. Louis, MO",
+          "Kansas City, MO",
+          "Salt Lake City, UT",
+          "New Orleans, LA",
+          "Baltimore, MD",
+          "Richmond, VA"
+        ],
+        "qloo": [
+          "New Orleans, LA",
+          "Portland, ME",
+          "Pittsburgh, PA",
+          "Albany, NY",
+          "Richmond, VA",
+          "St. Louis, MO",
+          "Bridgeport, CT",
+          "Springfield, MA",
+          "Toms River, NJ",
+          "Cleveland, OH"
+        ],
+        "qlooSized": [
+          "Montreal, QC",
+          "New Orleans, LA",
+          "Cleveland, OH",
+          "Milwaukee, WI",
+          "St. Louis, MO",
+          "Pittsburgh, PA",
+          "Columbus, OH",
+          "Baltimore, MD",
+          "Las Vegas, NV",
+          "Kansas City, MO"
+        ],
+        "modelQloo": [
+          "Montreal, QC",
+          "New Orleans, LA",
+          "Pittsburgh, PA",
+          "Cleveland, OH",
+          "St. Louis, MO",
+          "Milwaukee, WI",
+          "Columbus, OH",
+          "Baltimore, MD",
+          "Kansas City, MO",
+          "Salt Lake City, UT"
+        ]
+      },
+      "hits": {
+        "population": [
+          "Montreal, QC"
+        ],
+        "model": [
+          "Montreal, QC",
+          "Richmond, VA"
+        ],
+        "qloo": [
+          "Richmond, VA"
+        ],
+        "qlooSized": [
+          "Montreal, QC"
+        ],
+        "modelQloo": [
+          "Montreal, QC"
+        ]
+      }
+    },
+    {
+      "artist": "Fcukers",
+      "playedBefore": 24,
+      "newCities": [
+        "Phoenix, AZ",
+        "El Paso, TX",
+        "Oxnard, CA",
+        "Atlanta, GA",
+        "Pittsburgh, PA",
+        "Cincinnati, OH",
+        "Grand Rapids, MI"
+      ],
+      "picks": {
+        "population": [
+          "Dallas, TX",
+          "Phoenix, AZ",
+          "Houston, TX",
+          "San Jose, CA",
+          "Minneapolis, MN",
+          "Tampa, FL",
+          "Ottawa, ON",
+          "Atlanta, GA",
+          "Las Vegas, NV",
+          "San Antonio, TX"
+        ],
+        "model": [
+          "Atlanta, GA",
+          "Minneapolis, MN",
+          "Columbus, OH",
+          "Pittsburgh, PA",
+          "Dallas, TX",
+          "Houston, TX",
+          "Phoenix, AZ",
+          "Salt Lake City, UT",
+          "New Orleans, LA",
+          "Las Vegas, NV"
+        ],
+        "qloo": [],
+        "qlooSized": [],
+        "modelQloo": []
+      },
+      "hits": {
+        "population": [
+          "Phoenix, AZ",
+          "Atlanta, GA"
+        ],
+        "model": [
+          "Atlanta, GA",
+          "Pittsburgh, PA",
+          "Phoenix, AZ"
+        ],
+        "qloo": [],
+        "qlooSized": [],
+        "modelQloo": []
+      }
+    }
+  ]
+}

@@ -26,11 +26,18 @@ export async function POST(req: Request) {
   const label = c ? cityLabel(c) : city;
   const qloo = new Qloo();
   try {
-    const place = venue ? (await qloo.searchPlace(`${venue} ${label}`))[0] : undefined;
-    const artists = await qloo.artistsForCity(label, { venueId: place?.id, ...BANDS[room], take: 20 });
+    const place = venue ? (await qloo.searchPlace(venue, label))[0] : undefined;
+    // No room named: use the city's best-known live rooms as a stand-in for the local gig-going crowd.
+    const rooms = place ? [] : (await qloo.liveRooms(label, 4)).filter((r: any) => r.id);
+    const artists = await qloo.artistsForCity(label, {
+      venueIds: place ? [place.id] : rooms.map((r: any) => r.id),
+      ...BANDS[room],
+      take: 20,
+    });
     return Response.json({
       city: label,
       venue: place ? { id: place.id, name: place.name } : undefined,
+      rooms: rooms.map((r: any) => r.name),
       room,
       mode: qlooMode(),
       artists: artists.map((a: any) => ({ name: a.name, affinity: a.affinity, popularity: a.popularity, genres: a.genres })),

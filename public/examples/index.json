@@ -1,7 +1,17 @@
 [
   {
-    "id": "sample-wednesday",
+    "id": "live-wednesday",
     "title": "Wednesday, 5 dates from Asheville",
-    "blurb": "Sample run on placeholder data until the Qloo key is live"
+    "blurb": "Live Qloo data. Indie rock band from Asheville, NC; Chicago and Brooklyn already played"
+  },
+  {
+    "id": "live-sierra-ferrell",
+    "title": "Sierra Ferrell, 6 dates from Nashville",
+    "blurb": "Live Qloo data. Bluegrass and country singer from West Virginia, based in Nashville; Atlanta and Chicago already played"
+  },
+  {
+    "id": "live-english-teacher",
+    "title": "English Teacher, 6 dates from Leeds",
+    "blurb": "Live Qloo data. Mercury Prize-winning band from Leeds; London and Manchester already played"
   }
 ]
